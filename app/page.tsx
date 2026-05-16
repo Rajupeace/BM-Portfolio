@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useSpring, AnimatePresence } from "framer-motion";
+import { useTheme } from "next-themes";
 import {
   ArrowUp,
   ArrowRight,
@@ -29,9 +30,11 @@ import {
   Eye,
   Award,
   GraduationCap,
+  Send,
 } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 // ---- DATA ----
 const DATA = {
@@ -108,29 +111,29 @@ const DATA = {
   ],
   projects: [
     {
-      title: "Vu-Ai-Agent",
+      title: "Vu Universe 360",
       description: "An advanced AI agent designed for university assistance, capable of handling student queries with context awareness.",
       tags: ["Python", "AI", "LLM", "Automation"],
-      link: "https://github.com/Rajupeace/VU--AI-AGENT",
       github: "https://github.com/Rajupeace/VU--AI-AGENT",
+      live: "https://vu-ai-agent.vercel.app",
       image: "/vu-ai-agent.png",
       bg: "bg-gradient-to-br from-indigo-500 to-purple-600",
     },
     {
-      title: "Friendly-Notebook",
-      description: "A digital notebook application focused on user experience, featuring rich text editing and seamless organization.",
-      tags: ["React", "Web App", "UI/UX"],
-      link: "https://github.com/Rajupeace/Friendly-Notebook",
-      github: "https://github.com/Rajupeace/Friendly-Notebook",
-      image: "/friendly-notebook.jpg",
+      title: "VU - UniVerse-360",
+      description: "A 360° Unified University Management Ecosystem. A next-generation, full-stack, cloud-ready Educational Management System providing complete digital transformation of academic, administrative, and operational workflows. Built with React.js 18, NestJS, MongoDB Atlas, and Python AI microservices.",
+      tags: ["React", "NestJS", "MongoDB", "Python", "AI"],
+      github: "https://github.com/Rajupeace/VUUniverse-360",
+      live: "https://vu-universe-360.vercel.app/",
+      image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=3840&q=80",
       bg: "bg-gradient-to-br from-emerald-500 to-teal-600",
     },
     {
       title: "BM Portfolio",
       description: "My personal portfolio showcasing my journey, built with Next.js, Framer Motion, and premium styling.",
       tags: ["Next.js", "Tailwind", "Framer Motion"],
-      link: "https://github.com/Rajupeace/BM-Portfolio",
       github: "https://github.com/Rajupeace/BM-Portfolio",
+      live: "https://bm-portfolio-xi.vercel.app",
       image: "/bm-portfolio.png",
       bg: "bg-gradient-to-br from-orange-400 to-rose-500",
     },
@@ -142,9 +145,12 @@ const DATA = {
     { title: "Full Stack Orchestration", description: "Orchestrating the entire digital lifecycle, from the first line of schema to the final global deployment.", icon: Database },
   ],
   certifications: [
-    { name: "Responsive Web Design", issuer: "freeCodeCamp", year: "2023", link: "#" },
-    { name: "JavaScript Algorithms", issuer: "freeCodeCamp", year: "2023", link: "#" },
-    { name: "Python for Everybody", issuer: "Coursera", year: "2022", link: "#" },
+    { name: "Basics of Data Structures and Algorithms", issuer: "Simplilearn", year: "2025", code: "8398194", date: "28th May 2025", image: "/certificates/data-structures-algorithms.pdf" },
+    { name: "Introduction to Cloud Computing", issuer: "Simplilearn", year: "2026", code: "10081714", date: "10th April 2026", image: "/certificates/cloud-computing.pdf" },
+    { name: "Power BI for Beginners", issuer: "Microsoft + Simplilearn", year: "2026", code: "10107424", date: "15th April 2026", image: "/certificates/power-bi.pdf" },
+    { name: "Python for Beginners", issuer: "Simplilearn", year: "2025", code: "8408331", date: "30th May 2025", image: "/certificates/python-beginners.pdf" },
+    { name: "Python (Basic)", issuer: "HackerRank", year: "2025", code: "7B476072F599", date: "30 May, 2025", image: "/certificates/python-hackerrank.pdf" },
+    { name: "Problem Solving (Basic)", issuer: "HackerRank", year: "2025", code: "DB1C7CC20DC1", date: "06 Jun, 2025", image: "/certificates/problem-solving.pdf" },
   ],
   achievements: [
     { title: "Smart India Hackathon Finalist", description: "Selected for the grand finale for an innovative AI-based solution.", year: "2023", icon: "🏆" },
@@ -261,7 +267,8 @@ function CoffeeIcon(props: any) {
 }
 
 // Floating Dock Navigation
-const FloatingDock = ({ darkMode, setDarkMode }: { darkMode: boolean, setDarkMode: (v: boolean) => void }) => {
+const FloatingDock = () => {
+  const { theme, setTheme } = useTheme();
   const items = [
     { label: "Home", id: "home" },
     { label: "Skills", id: "skills" },
@@ -288,11 +295,73 @@ const FloatingDock = ({ darkMode, setDarkMode }: { darkMode: boolean, setDarkMod
       ))}
       <div className="h-6 w-[1px] bg-slate-400/30 mx-1" />
       <button
-        onClick={() => setDarkMode(!darkMode)}
+        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
         className="p-2 rounded-full hover:bg-white/20 dark:hover:bg-white/10 transition-colors"
       >
-        {darkMode ? <Sun size={18} /> : <Moon size={18} />}
+        {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
       </button>
+    </motion.div>
+  );
+};
+
+// Contact Form Component
+const ContactForm = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    // Simulate API call
+    setTimeout(() => {
+      setIsSubmitting(false);
+      toast.success("Message sent successfully!", {
+        description: "Thank you for reaching out. I will get back to you soon.",
+      });
+      (e.target as HTMLFormElement).reset();
+    }, 1500);
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-8 shadow-xl"
+    >
+      <h3 className="text-2xl font-bold text-white mb-6">Send me a message</h3>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <label htmlFor="name" className="text-sm font-medium text-indigo-200">Your Name</label>
+            <input required type="text" id="name" className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" placeholder="John Doe" />
+          </div>
+          <div className="space-y-2">
+            <label htmlFor="email" className="text-sm font-medium text-indigo-200">Your Email</label>
+            <input required type="email" id="email" className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" placeholder="john@example.com" />
+          </div>
+        </div>
+        <div className="space-y-2">
+          <label htmlFor="message" className="text-sm font-medium text-indigo-200">Message</label>
+          <textarea required id="message" rows={4} className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all resize-none" placeholder="How can I help you?"></textarea>
+        </div>
+        <Button 
+          type="submit" 
+          disabled={isSubmitting}
+          className="w-full py-6 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold text-lg shadow-lg hover:shadow-indigo-500/25 transition-all"
+        >
+          {isSubmitting ? (
+            <div className="flex items-center gap-2">
+              <span className="h-5 w-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+              Sending...
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              Send Message <Send className="h-5 w-5" />
+            </div>
+          )}
+        </Button>
+      </form>
     </motion.div>
   );
 };
@@ -300,10 +369,11 @@ const FloatingDock = ({ darkMode, setDarkMode }: { darkMode: boolean, setDarkMod
 // ---- MAIN COMPONENT ----
 
 export default function ProfessionalPortfolio() {
-  const [darkMode, setDarkMode] = useState(false);
   const { scrollYProgress } = useScroll();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showPersonalInfo, setShowPersonalInfo] = useState(false);
+  const [flippedCert, setFlippedCert] = useState<number | null>(null);
+  const [selectedProject, setSelectedProject] = useState<number | null>(null);
 
   const profileImages = [
     "/profile-circle.jpg",
@@ -316,13 +386,7 @@ export default function ProfessionalPortfolio() {
     restDelta: 0.001
   });
 
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [darkMode]);
+
 
   // Scroll to Top Logic
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -369,7 +433,7 @@ export default function ProfessionalPortfolio() {
         style={{ scaleX }}
       />
 
-      <FloatingDock darkMode={darkMode} setDarkMode={setDarkMode} />
+      <FloatingDock />
 
       {/* HERO SECTION */}
       <section id="home" className="relative min-h-screen flex items-center justify-center px-6 lg:px-20 overflow-hidden pt-20">
@@ -466,7 +530,7 @@ export default function ProfessionalPortfolio() {
                     src={profileImages[currentImageIndex]}
                     alt="Srikanth Profile"
                     fill
-                    className="object-cover cursor-pointer hover:scale-105 transition-transform duration-500"
+                    className="object-cover hover:scale-105 transition-transform duration-500"
                     priority
                   />
                 </motion.div>
@@ -598,16 +662,12 @@ export default function ProfessionalPortfolio() {
 
           <div className="grid md:grid-cols-3 gap-6 auto-rows-[300px]">
             {DATA.projects.map((project, i) => (
-              <motion.a
-                href={project.link}
-                target="_blank"
-                rel="noreferrer"
-                key={i}
+              <motion.div key={i}
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                className={`group relative overflow-hidden rounded-3xl border border-slate-200 dark:border-slate-800 cursor-pointer ${i === 0 ? "md:col-span-2" : "md:col-span-1"}`}
+                className={`group relative overflow-hidden rounded-3xl border border-slate-200 dark:border-slate-800 ${i === 0 ? "md:col-span-2" : "md:col-span-1"}`}
               >
                 {/* Background Image with Overlay */}
                 <div className="absolute inset-0 z-0">
@@ -617,27 +677,79 @@ export default function ProfessionalPortfolio() {
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-colors duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20 group-hover:from-black/70 group-hover:via-black/50 transition-all duration-500" />
+                </div>
+
+                {/* Action Buttons - Top Right */}
+                <div className="absolute top-4 right-4 z-20 flex gap-2">
+                  <button
+                    onClick={(e) => { e.stopPropagation(); setSelectedProject(i); }}
+                    className="p-2 rounded-full bg-white/80 hover:bg-white backdrop-blur-sm text-slate-900 transition-colors shadow-lg"
+                    title="View Details"
+                  >
+                    <Info className="h-5 w-5" />
+                  </button>
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-sm text-white transition-colors shadow-lg"
+                    title="View GitHub"
+                  >
+                    <Github className="h-5 w-5" />
+                  </a>
+                  {project.live && (
+                    <a
+                      href={project.live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2 rounded-full bg-indigo-500/90 hover:bg-indigo-600 backdrop-blur-sm text-white transition-colors shadow-lg"
+                      title="View Live"
+                    >
+                      <ExternalLink className="h-5 w-5" />
+                    </a>
+                  )}
                 </div>
 
                 {/* Content */}
                 <div className="absolute inset-0 p-8 flex flex-col justify-end z-10 text-white">
                   <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                    <h3 className="text-2xl font-bold mb-2 flex items-center gap-2">
-                      {project.title}
-                      <ExternalLink className="h-5 w-5 opacity-0 group-hover:opacity-100 transition-opacity text-white" />
-                    </h3>
+                    <h3 className="text-2xl font-bold mb-2">{project.title}</h3>
                     <p className="text-slate-200 mb-4 line-clamp-2">{project.description}</p>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2 mb-4">
                       {project.tags.map(tag => (
                         <span key={tag} className="px-3 py-1 text-xs font-semibold bg-white/20 backdrop-blur-md rounded-full border border-white/20">
                           {tag}
                         </span>
                       ))}
                     </div>
+
+                    {/* Bottom Links */}
+                    <div className="flex items-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 text-sm text-white/80 hover:text-white transition-colors"
+                      >
+                        <Github className="h-4 w-4" />
+                        <span>GitHub</span>
+                      </a>
+                      {project.live && (
+                        <a
+                          href={project.live}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 text-sm text-indigo-300 hover:text-indigo-200 transition-colors"
+                        >
+                          <ExternalLink className="h-4 w-4" />
+                          <span>Live Demo</span>
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </motion.a>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -655,29 +767,76 @@ export default function ProfessionalPortfolio() {
                 <Award className="h-8 w-8 text-indigo-500" />
                 Certifications
               </h3>
-              <div className="grid md:grid-cols-3 gap-6">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {DATA.certifications.map((cert, i) => (
-                  <motion.a
-                    href={cert.link}
+                  <motion.div
                     key={i}
                     initial={{ opacity: 0, scale: 0.9 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
-                    whileHover={{ scale: 1.05 }}
+                    whileHover={{ scale: 1.02 }}
                     transition={{ type: "spring", stiffness: 300 }}
-                    className="p-6 rounded-2xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:border-indigo-500 dark:hover:border-indigo-500 transition-all cursor-pointer shadow-sm hover:shadow-xl flex flex-col justify-between h-full group"
+                    className="group relative h-80 cursor-pointer"
+                    onClick={() => setFlippedCert(flippedCert === i ? null : i)}
                   >
-                    <div>
-                      <div className="flex justify-between items-start mb-4">
-                        <div className="p-2 rounded-lg bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400">
-                          <Award className="h-6 w-6" />
+                    <motion.div
+                      className="relative w-full h-full"
+                      animate={{ rotateY: flippedCert === i ? 180 : 0 }}
+                      transition={{ duration: 0.6 }}
+                      style={{ transformStyle: "preserve-3d" }}
+                    >
+                      {/* Front Side */}
+                      <motion.div
+                        className="absolute inset-0 backface-hidden rounded-2xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:border-indigo-500 dark:hover:border-indigo-500 transition-all shadow-sm hover:shadow-xl overflow-hidden"
+                        style={{ backfaceVisibility: "hidden" }}
+                      >
+                        {/* Certificate Header with Issuer Badge */}
+                        <div className="relative h-32 overflow-hidden bg-gradient-to-br from-indigo-500/10 to-purple-500/10 dark:from-indigo-500/20 dark:to-purple-500/20">
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <Award className="h-16 w-16 text-indigo-500/30 dark:text-indigo-400/30" />
+                          </div>
+                          <div className="absolute bottom-3 left-3 right-3">
+                            <span className="text-xs font-bold px-3 py-1 rounded-full bg-indigo-500 text-white dark:bg-indigo-600">
+                              {cert.issuer}
+                            </span>
+                          </div>
                         </div>
-                        <span className="text-xs font-bold px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-500">{cert.year}</span>
-                      </div>
-                      <h4 className="font-bold text-lg mb-1 group-hover:text-indigo-500 transition-colors">{cert.name}</h4>
-                      <p className="text-slate-500 text-sm">{cert.issuer}</p>
-                    </div>
-                  </motion.a>
+
+                        {/* Certificate Info */}
+                        <div className="p-5">
+                          <h4 className="font-bold text-lg mb-3 group-hover:text-indigo-500 transition-colors line-clamp-2">{cert.name}</h4>
+                          <div className="space-y-2">
+                            <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                              <Award className="h-4 w-4 text-indigo-500" />
+                              <span>Code: {cert.code}</span>
+                            </div>
+                            <p className="text-xs text-slate-500 dark:text-slate-500">{cert.date}</p>
+                          </div>
+                          <p className="text-xs text-indigo-500 mt-3 font-medium">Click to view certificate</p>
+                        </div>
+                      </motion.div>
+
+                      {/* Back Side - Certificate PDF */}
+                      <motion.div
+                        className="absolute inset-0 backface-hidden rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 shadow-xl overflow-hidden"
+                        style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
+                      >
+                        <div className="relative w-full h-full">
+                          <iframe
+                            src={cert.image}
+                            className="w-full h-full"
+                            title={cert.name}
+                          />
+                          <button
+                            onClick={(e) => { e.stopPropagation(); setFlippedCert(null); }}
+                            className="absolute top-2 right-2 p-2 rounded-full bg-black/50 hover:bg-black/70 text-white transition-colors z-10"
+                          >
+                            <X className="h-4 w-4" />
+                          </button>
+                        </div>
+                      </motion.div>
+                    </motion.div>
+                  </motion.div>
                 ))}
               </div>
             </div>
@@ -873,6 +1032,79 @@ export default function ProfessionalPortfolio() {
         </div>
       </section>
 
+      {/* PROJECT DETAILS MODAL */}
+      <AnimatePresence>
+        {selectedProject !== null && DATA.projects[selectedProject] && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+            onClick={() => setSelectedProject(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 50 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 50 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-slate-200 dark:border-slate-800 relative scrollbar-hide"
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setSelectedProject(null)}
+                className="absolute top-4 right-4 p-2 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors z-50"
+              >
+                <X className="h-6 w-6 text-slate-500" />
+              </button>
+
+              <div className="p-8 md:p-10 bg-gradient-to-br from-indigo-500 to-purple-600 text-white relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-8 opacity-10">
+                  <Github className="h-64 w-64" />
+                </div>
+                <div className="relative z-10">
+                  <h3 className="text-3xl font-bold mb-2">{DATA.projects[selectedProject].title}</h3>
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    {DATA.projects[selectedProject].tags.map(tag => (
+                      <span key={tag} className="px-3 py-1 text-xs font-semibold bg-white/20 backdrop-blur-md rounded-full border border-white/20">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-8">
+                <h4 className="text-xl font-bold mb-4 text-slate-900 dark:text-slate-100">Project Description</h4>
+                <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">{DATA.projects[selectedProject].description}</p>
+
+                <div className="flex gap-4">
+                  <a
+                    href={DATA.projects[selectedProject].github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl font-semibold hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors"
+                  >
+                    <Github className="h-5 w-5" />
+                    View GitHub
+                  </a>
+                  {DATA.projects[selectedProject].live && (
+                    <a
+                      href={DATA.projects[selectedProject].live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 transition-colors"
+                    >
+                      <ExternalLink className="h-5 w-5" />
+                      View Live
+                    </a>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* PERSONAL DETAILS MODAL */}
       <AnimatePresence>
         {showPersonalInfo && (
@@ -1011,57 +1243,63 @@ export default function ProfessionalPortfolio() {
           {/* Contact Cards Grid */}
           <div className="grid md:grid-cols-3 gap-6 mb-16">
             {/* Email Card */}
-            <motion.a
-              href={`mailto:${DATA.contact.email}`}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              whileHover={{ scale: 1.05, y: -5 }}
-              className="group p-8 rounded-3xl bg-white/10 backdrop-blur-lg border border-white/20 hover:border-indigo-400 transition-all duration-300 cursor-pointer"
-            >
-              <div className="mb-4 w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center group-hover:scale-110 transition-transform">
-                <Mail className="h-7 w-7 text-white" />
-              </div>
-              <h3 className="text-xl font-bold text-white mb-2">Email Me</h3>
-              <p className="text-indigo-200 text-sm break-all">{DATA.contact.email}</p>
-            </motion.a>
+            <a href={`mailto:${DATA.contact.email}`}>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+                whileHover={{ scale: 1.05, y: -5 }}
+                className="group p-8 rounded-3xl bg-white/10 backdrop-blur-lg border border-white/20 hover:border-indigo-400 transition-all duration-300 cursor-pointer"
+              >
+                <div className="mb-4 w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Mail className="h-7 w-7 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">Email Me</h3>
+                <p className="text-indigo-200 text-sm break-all">{DATA.contact.email}</p>
+              </motion.div>
+            </a>
 
             {/* Phone Card */}
-            <motion.a
-              href={`tel:${DATA.personalDetails.phone}`}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              whileHover={{ scale: 1.05, y: -5 }}
-              className="group p-8 rounded-3xl bg-white/10 backdrop-blur-lg border border-white/20 hover:border-purple-400 transition-all duration-300 cursor-pointer"
-            >
-              <div className="mb-4 w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center group-hover:scale-110 transition-transform">
-                <Phone className="h-7 w-7 text-white" />
-              </div>
-              <h3 className="text-xl font-bold text-white mb-2">Call Me</h3>
-              <p className="text-purple-200 text-sm">{DATA.personalDetails.phone}</p>
-            </motion.a>
+            <a href={`tel:${DATA.personalDetails.phone}`}>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                whileHover={{ scale: 1.05, y: -5 }}
+                className="group p-8 rounded-3xl bg-white/10 backdrop-blur-lg border border-white/20 hover:border-purple-400 transition-all duration-300 cursor-pointer"
+              >
+                <div className="mb-4 w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Phone className="h-7 w-7 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">Call Me</h3>
+                <p className="text-purple-200 text-sm">{DATA.personalDetails.phone}</p>
+              </motion.div>
+            </a>
 
             {/* Location Card */}
-            <motion.a
-              href="https://maps.app.goo.gl/vtz8onhYBmQ9uBst6"
-              target="_blank"
-              rel="noopener noreferrer"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-              whileHover={{ scale: 1.05, y: -5 }}
-              className="group p-8 rounded-3xl bg-white/10 backdrop-blur-lg border border-white/20 hover:border-pink-400 transition-all duration-300 cursor-pointer"
-            >
-              <div className="mb-4 w-14 h-14 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center group-hover:scale-110 transition-transform">
-                <Globe className="h-7 w-7 text-white" />
-              </div>
-              <h3 className="text-xl font-bold text-white mb-2">Location</h3>
-              <p className="text-pink-200 text-sm">{DATA.personalDetails.address}</p>
-            </motion.a>
+            <a href="https://maps.app.goo.gl/vtz8onhYBmQ9uBst6" target="_blank" rel="noopener noreferrer">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 }}
+                whileHover={{ scale: 1.05, y: -5 }}
+                className="group p-8 rounded-3xl bg-white/10 backdrop-blur-lg border border-white/20 hover:border-pink-400 transition-all duration-300 cursor-pointer"
+              >
+                <div className="mb-4 w-14 h-14 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Globe className="h-7 w-7 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">Location</h3>
+                <p className="text-pink-200 text-sm">{DATA.personalDetails.address}</p>
+              </motion.div>
+            </a>
+          </div>
+
+          {/* Contact Form Section */}
+          <div className="max-w-3xl mx-auto mb-20">
+            <ContactForm />
           </div>
 
           {/* Social Links */}
@@ -1078,18 +1316,15 @@ export default function ProfessionalPortfolio() {
               { icon: HackerRankIcon, href: DATA.contact.hackerrank, label: 'HackerRank', color: 'hover:bg-green-600' },
               { icon: LeetCodeIcon, href: DATA.contact.leetcode, label: 'LeetCode', color: 'hover:bg-orange-600' },
             ].map((social, i) => (
-              <motion.a
-                key={i}
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.2, rotate: 5 }}
-                whileTap={{ scale: 0.9 }}
-                className={`p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 ${social.color} transition-all duration-300 group`}
-                aria-label={social.label}
-              >
-                <social.icon className="h-6 w-6 text-white" />
-              </motion.a>
+              <a key={i} href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.label}>
+                <motion.div
+                  whileHover={{ scale: 1.2, rotate: 5 }}
+                  whileTap={{ scale: 0.9 }}
+                  className={`p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 ${social.color} transition-all duration-300 group`}
+                >
+                  <social.icon className="h-6 w-6 text-white" />
+                </motion.div>
+              </a>
             ))}
           </motion.div>
 
@@ -1113,3 +1348,5 @@ export default function ProfessionalPortfolio() {
     </div>
   );
 }
+
+
