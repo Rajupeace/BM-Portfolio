@@ -628,7 +628,7 @@ export default function ProfessionalPortfolio() {
   const glance = [
     { href: "#work", icon: FolderGit2, label: "Projects", value: `${DATA.projects.length} featured builds` },
     { href: "#startup", icon: Building2, label: "SriVoraTech", value: `${liveProducts} live product demos` },
-    { href: "#skills", icon: Wrench, label: "Current focus", value: currentFocus || "Skills & learning" },
+    { href: "#skills", icon: Wrench, label: currentFocus.trim() ? "Current focus" : "Skills & learning", value: currentFocus.trim() || "Explore the tracker" },
     { href: "#contact", icon: AtSign, label: "Contact", value: "Hiring or collaborating?" },
   ];
 
