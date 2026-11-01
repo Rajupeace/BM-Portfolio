@@ -1243,12 +1243,6 @@ export default function ProfessionalPortfolio() {
                           className="absolute inset-0 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-hidden"
                           style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
                           aria-hidden={!flipped}
-                          onKeyDown={(e) => {
-                            if (e.key === "Tab" && flipped) {
-                              e.preventDefault();
-                              document.getElementById(`cert-close-${i}`)?.focus();
-                            }
-                          }}
                         >
                           {flipped && (
                             <iframe src={cert.image} className="w-full h-full" title={`${cert.name} certificate`} loading="lazy" tabIndex={-1} />
