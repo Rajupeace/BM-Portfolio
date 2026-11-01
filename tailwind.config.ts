@@ -12,8 +12,22 @@ const config: Config = {
 		extend: {
 			fontFamily: {
 				sans: ["var(--font-outfit)", "sans-serif"],
+				display: ["var(--font-display)", "var(--font-outfit)", "sans-serif"],
 			},
 			colors: {
+				brand: {
+					50: '#f0fdfa',
+					100: '#ccfbf1',
+					200: '#99f6e4',
+					300: '#5eead4',
+					400: '#2dd4bf',
+					500: '#14b8a6',
+					600: '#0f766e',
+					700: '#115e59',
+					800: '#134e4a',
+					900: '#0f3d3a',
+					950: '#042f2e'
+				},
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
 				card: {

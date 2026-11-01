@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from 'next'
-import { Outfit } from 'next/font/google'
+import { Outfit, Space_Grotesk } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from 'sonner'
 
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' })
+const display = Space_Grotesk({ subsets: ['latin'], variable: '--font-display' })
 
 const SITE_URL = 'https://bm-portfolio-xi.vercel.app'
 const TITLE = 'Badisa Srikanth | Full Stack Developer & Founder of SriVoraTech'
@@ -39,7 +40,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: '#f8fafc' },
-    { media: '(prefers-color-scheme: dark)', color: '#030712' },
+    { media: '(prefers-color-scheme: dark)', color: '#04080f' },
   ],
 }
 
@@ -61,7 +62,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${outfit.variable} font-sans antialiased`}>
+      <body className={`${outfit.variable} ${display.variable} font-sans antialiased`}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}

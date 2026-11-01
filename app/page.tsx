@@ -405,23 +405,24 @@ const SiteHeader = () => {
   const linkClass = (id: string) =>
     `rounded-full px-3 py-2 text-sm font-medium transition-colors ${
       active === id
-        ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-300"
+        ? "bg-brand-50 text-brand-700 dark:bg-brand-500/10 dark:text-brand-300"
         : "text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
     }`;
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300 ${
-        open
-          ? "border-slate-200 bg-white dark:border-slate-800 dark:bg-[#030712]"
-          : scrolled
-            ? "border-slate-200 bg-white/85 backdrop-blur-lg dark:border-slate-800 dark:bg-[#030712]/85"
-            : "border-transparent bg-transparent"
-      }`}
-    >
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
+    <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-4">
+      <div
+        className={`mx-auto max-w-6xl rounded-3xl border transition-[background-color,border-color,box-shadow] duration-300 ${
+          open
+            ? "border-slate-200 bg-white shadow-lg dark:border-slate-800 dark:bg-[#0a1220]"
+            : scrolled
+              ? "border-slate-200/80 bg-white/80 shadow-lg shadow-slate-900/5 backdrop-blur-xl dark:border-slate-800/80 dark:bg-[#0a1220]/80"
+              : "border-transparent bg-transparent"
+        }`}
+      >
+      <div className="flex h-14 items-center justify-between gap-4 px-3 sm:px-4">
         <a href="#home" className="flex items-center gap-2.5 rounded-lg font-bold text-slate-900 dark:text-white">
-          <span className="grid h-9 w-9 place-items-center rounded-lg bg-indigo-600 text-sm text-white" aria-hidden="true">BS</span>
+          <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-brand-600 to-sky-700 font-display text-sm text-white shadow-sm" aria-hidden="true">BS</span>
           <span className="hidden sm:block">{DATA.name}</span>
           <span className="sr-only sm:hidden">{DATA.name}, home</span>
         </a>
@@ -498,6 +499,7 @@ const SiteHeader = () => {
           </ul>
         </nav>
       )}
+      </div>
     </header>
   );
 };
@@ -520,7 +522,7 @@ const ContactForm = () => {
   };
 
   const inputClass =
-    "w-full bg-black/20 border border-white/15 rounded-xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 transition-colors";
+    "w-full bg-black/20 border border-white/15 rounded-xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-300 transition-colors";
 
   return (
     <motion.div
@@ -530,25 +532,25 @@ const ContactForm = () => {
       className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-6 sm:p-8 shadow-xl"
     >
       <h3 className="text-2xl font-bold text-white mb-2">Send me a message</h3>
-      <p className="text-sm text-indigo-100/80 mb-6">This opens your email app with your message ready to send.</p>
+      <p className="text-sm text-brand-100/80 mb-6">This opens your email app with your message ready to send.</p>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
-            <label htmlFor="name" className="text-sm font-medium text-indigo-100">Your Name</label>
+            <label htmlFor="name" className="text-sm font-medium text-brand-100">Your Name</label>
             <input required type="text" id="name" name="name" autoComplete="name" className={inputClass} placeholder="John Doe" />
           </div>
           <div className="space-y-2">
-            <label htmlFor="email" className="text-sm font-medium text-indigo-100">Your Email</label>
+            <label htmlFor="email" className="text-sm font-medium text-brand-100">Your Email</label>
             <input required type="email" id="email" name="email" autoComplete="email" className={inputClass} placeholder="john@example.com" />
           </div>
         </div>
         <div className="space-y-2">
-          <label htmlFor="message" className="text-sm font-medium text-indigo-100">Message</label>
+          <label htmlFor="message" className="text-sm font-medium text-brand-100">Message</label>
           <textarea required id="message" name="message" rows={4} className={`${inputClass} resize-none`} placeholder="How can I help you?"></textarea>
         </div>
         <Button
           type="submit"
-          className="w-full py-6 rounded-xl bg-white text-slate-900 hover:bg-indigo-50 font-bold text-lg transition-colors"
+          className="w-full py-6 rounded-xl bg-white text-slate-900 hover:bg-brand-50 font-bold text-lg transition-colors"
         >
           <span className="flex items-center gap-2">
             Send Message <Send className="h-5 w-5" aria-hidden="true" />
@@ -561,8 +563,11 @@ const ContactForm = () => {
 
 const SectionHeading = ({ eyebrow, title, description, id }: { eyebrow: string; title: string; description?: string; id?: string }) => (
   <div className="mb-12">
-    <p className="text-sm font-semibold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">{eyebrow}</p>
-    <h2 id={id} className="mt-3 text-4xl md:text-5xl font-bold tracking-tight">{title}</h2>
+    <p className="inline-flex items-center gap-3 text-sm font-semibold uppercase tracking-widest text-brand-600 dark:text-brand-300">
+      <span className="h-px w-10 bg-gradient-to-r from-brand-500 to-sky-400" aria-hidden="true" />
+      {eyebrow}
+    </p>
+    <h2 id={id} className="mt-3 font-display text-4xl md:text-5xl font-bold tracking-tight text-balance">{title}</h2>
     {description && <p className="mt-4 max-w-2xl text-lg text-slate-600 dark:text-slate-400">{description}</p>}
   </div>
 );
@@ -634,7 +639,7 @@ export default function ProfessionalPortfolio() {
 
   return (
     <MotionConfig reducedMotion="user">
-    <div className="min-h-screen bg-slate-50 dark:bg-[#030712] text-slate-900 dark:text-slate-50 transition-colors duration-300 font-sans selection:bg-indigo-500/30">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#04080f] text-slate-900 dark:text-slate-50 transition-colors duration-300 font-sans selection:bg-brand-500/30">
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:text-slate-900 focus:shadow-lg"
@@ -644,14 +649,14 @@ export default function ProfessionalPortfolio() {
 
       {/* BACKGROUND */}
       <div className="fixed inset-0 z-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgb(100_116_139/0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgb(100_116_139/0.08)_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:radial-gradient(ellipse_at_top,black_30%,transparent_75%)]" />
-        <div className="absolute top-[-15%] left-[-10%] w-[520px] h-[520px] bg-indigo-500/10 dark:bg-indigo-500/15 rounded-full blur-[120px] animate-blob" />
-        <div className="absolute top-[25%] right-[-12%] w-[420px] h-[420px] bg-purple-500/10 dark:bg-purple-500/10 rounded-full blur-[120px] animate-blob animation-delay-4000" />
+        <div className="absolute inset-0 bg-[radial-gradient(rgb(100_116_139/0.22)_1px,transparent_1px)] bg-[size:22px_22px] [mask-image:radial-gradient(ellipse_70%_55%_at_50%_0%,black_20%,transparent_80%)] dark:bg-[radial-gradient(rgb(148_163_184/0.14)_1px,transparent_1px)]" />
+        <div className="absolute -top-40 left-1/2 h-[480px] w-[900px] -translate-x-1/2 rounded-full bg-gradient-to-r from-brand-400/20 via-sky-400/15 to-violet-400/10 blur-[110px] dark:from-brand-500/20 dark:via-sky-500/10 dark:to-violet-500/10" />
+        <div className="absolute top-[40%] right-[-12%] w-[420px] h-[420px] bg-sky-500/10 rounded-full blur-[120px] animate-blob animation-delay-4000" />
       </div>
 
       {/* Progress Bar */}
       <motion.div
-        className="fixed top-0 left-0 right-0 h-0.5 bg-indigo-500 origin-left z-[100]"
+        className="fixed top-0 left-0 right-0 h-0.5 bg-brand-500 origin-left z-[100]"
         style={{ scaleX }}
         aria-hidden="true"
       />
@@ -660,7 +665,7 @@ export default function ProfessionalPortfolio() {
 
       <main id="main" className="relative z-10">
       {/* HERO SECTION */}
-      <section id="home" tabIndex={-1} aria-labelledby="hero-heading" className="relative min-h-[92vh] flex items-center justify-center px-6 pt-28 pb-24 outline-none">
+      <section id="home" tabIndex={-1} aria-labelledby="hero-heading" className="relative min-h-[92vh] flex items-center justify-center overflow-x-clip px-6 pt-28 pb-24 outline-none">
         <div className="relative z-10 max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-[1.25fr_0.75fr] gap-12 lg:gap-16 items-center">
           {/* Text Content */}
           <div>
@@ -668,13 +673,13 @@ export default function ProfessionalPortfolio() {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
-              className="mb-6 inline-flex flex-wrap items-center gap-x-2 gap-y-0.5 px-3 py-1 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 text-sm font-medium"
+              className="mb-6 inline-flex flex-wrap items-center gap-x-2 gap-y-0.5 px-3 py-1 rounded-full border border-brand-500/30 bg-brand-500/10 text-brand-700 dark:text-brand-300 text-sm font-medium"
             >
-              <span className="h-2 w-2 rounded-full bg-indigo-500" aria-hidden="true" />
-              <span className="whitespace-nowrap">{DATA.name}</span> <span className="whitespace-nowrap text-indigo-600/80 dark:text-indigo-300/80">· also known as {DATA.alias}</span>
+              <span className="h-2 w-2 rounded-full bg-brand-500" aria-hidden="true" />
+              <span className="whitespace-nowrap">{DATA.name}</span> <span className="whitespace-nowrap text-brand-600/80 dark:text-brand-300/80">· also known as {DATA.alias}</span>
             </motion.p>
 
-            <h1 id="hero-heading" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-[1.05] mb-6 text-balance">
+            <h1 id="hero-heading" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-tight leading-[1.05] mb-6 text-balance">
               <span className="block overflow-hidden pb-1">
                 <motion.span
                   initial={{ y: "100%" }}
@@ -690,7 +695,7 @@ export default function ProfessionalPortfolio() {
                   initial={{ y: "100%" }}
                   animate={{ y: 0 }}
                   transition={{ duration: 0.6, delay: 0.08, ease: [0.33, 1, 0.68, 1] }}
-                  className="block bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent"
+                  className="block bg-gradient-to-r from-brand-600 via-teal-600 to-sky-700 dark:from-brand-300 dark:via-teal-300 dark:to-sky-300 bg-clip-text text-transparent"
                 >
                   & Founder of SriVoraTech
                 </motion.span>
@@ -737,12 +742,12 @@ export default function ProfessionalPortfolio() {
               aria-label="Quick links"
             >
               <li>
-                <a href={DATA.resume} download="Badisa_Srikanth_Resume.pdf" className="inline-flex items-center gap-1 hover:text-indigo-600 dark:hover:text-indigo-400 underline-offset-4 hover:underline">
+                <a href={DATA.resume} download="Badisa_Srikanth_Resume.pdf" className="inline-flex items-center gap-1 hover:text-brand-600 dark:hover:text-brand-400 underline-offset-4 hover:underline">
                   <Download className="h-3.5 w-3.5" aria-hidden="true" /> Download CV
                 </a>
               </li>
               <li>
-                <a href={DATA.contact.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:text-indigo-600 dark:hover:text-indigo-400 underline-offset-4 hover:underline">
+                <a href={DATA.contact.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:text-brand-600 dark:hover:text-brand-400 underline-offset-4 hover:underline">
                   <Github className="h-3.5 w-3.5" aria-hidden="true" /> GitHub<span className="sr-only"> (opens in a new tab)</span>
                 </a>
               </li>
@@ -757,7 +762,21 @@ export default function ProfessionalPortfolio() {
             aria-label="Profile summary"
             className="relative mx-auto w-full max-w-sm lg:mr-0"
           >
-            <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-tr from-indigo-500/20 to-purple-500/20 blur-2xl" aria-hidden="true" />
+            <div className="pointer-events-none absolute -inset-4 rounded-[2rem] bg-gradient-to-tr from-brand-500/20 to-sky-500/20 blur-2xl" aria-hidden="true" />
+            <div className="pointer-events-none absolute left-1/2 top-1/2 hidden h-[150%] w-[150%] -translate-x-1/2 -translate-y-1/2 sm:block" aria-hidden="true">
+              <svg viewBox="0 0 400 400" fill="none" className="absolute inset-0 h-full w-full text-slate-300 dark:text-slate-700">
+                <circle cx="200" cy="200" r="150" stroke="currentColor" strokeDasharray="2 6" />
+                <circle cx="200" cy="200" r="196" stroke="currentColor" strokeOpacity="0.6" strokeDasharray="1 8" />
+              </svg>
+              <div className="absolute inset-[12.5%] animate-orbit">
+                <span className="absolute left-1/2 top-0 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-500 shadow-[0_0_0_4px_rgb(20_184_166/0.15)]" />
+                <span className="absolute bottom-0 left-1/2 h-2 w-2 -translate-x-1/2 translate-y-1/2 rounded-full bg-sky-500" />
+              </div>
+              <div className="absolute inset-[1%] animate-orbit-reverse">
+                <span className="absolute left-0 top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-400" />
+                <span className="absolute right-0 top-1/2 h-1.5 w-1.5 translate-x-1/2 -translate-y-1/2 rounded-full bg-amber-400" />
+              </div>
+            </div>
             <div className="relative rounded-3xl border border-slate-200 bg-white/90 p-5 shadow-xl backdrop-blur dark:border-slate-800 dark:bg-slate-900/80">
               <button
                 type="button"
@@ -797,10 +816,10 @@ export default function ProfessionalPortfolio() {
                 href={srivoratech.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-4 flex items-center justify-between gap-3 rounded-xl border border-slate-200 p-3 transition-colors hover:border-indigo-300 dark:border-slate-800 dark:hover:border-indigo-500/50"
+                className="mt-4 flex items-center justify-between gap-3 rounded-xl border border-slate-200 p-3 transition-colors hover:border-brand-300 dark:border-slate-800 dark:hover:border-brand-500/50"
               >
                 <span className="flex items-center gap-3">
-                  <span className="rounded-lg bg-indigo-50 p-2 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-300">
+                  <span className="rounded-lg bg-brand-50 p-2 text-brand-600 dark:bg-brand-500/10 dark:text-brand-300">
                     <Building2 className="h-4 w-4" aria-hidden="true" />
                   </span>
                   <span>
@@ -811,6 +830,24 @@ export default function ProfessionalPortfolio() {
                 <ArrowUpRight className="h-4 w-4 text-slate-400" aria-hidden="true" />
                 <span className="sr-only">(opens in a new tab)</span>
               </a>
+
+              {currentFocus.trim() && (
+                <a
+                  href="#skills"
+                  className="mt-3 flex items-center justify-between gap-3 rounded-xl bg-slate-50 p-3 text-sm transition-colors hover:bg-slate-100 dark:bg-slate-800/60 dark:hover:bg-slate-800"
+                >
+                  <span className="flex items-center gap-2.5">
+                    <span className="relative flex h-2.5 w-2.5" aria-hidden="true">
+                      <span className="absolute inline-flex h-full w-full rounded-full bg-violet-400 animate-ping-slow" />
+                      <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-violet-500" />
+                    </span>
+                    <span className="text-slate-600 dark:text-slate-300">
+                      Now learning <span className="font-semibold text-slate-900 dark:text-white">{currentFocus}</span>
+                    </span>
+                  </span>
+                  <ArrowRight className="h-4 w-4 shrink-0 text-slate-400" aria-hidden="true" />
+                </a>
+              )}
 
               <ul className="mt-4 flex gap-2" aria-label="Profiles">
                 {[
@@ -842,9 +879,9 @@ export default function ProfessionalPortfolio() {
             <li key={g.href}>
               <a
                 href={g.href}
-                className="group flex h-full items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-indigo-300 hover:shadow-md dark:border-slate-800 dark:bg-slate-900/60 dark:hover:border-indigo-500/50"
+                className="group flex h-full items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-md dark:border-slate-800 dark:bg-slate-900/60 dark:hover:border-brand-500/50"
               >
-                <span className="rounded-xl bg-indigo-50 p-3 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-300">
+                <span className="rounded-xl bg-brand-50 p-3 text-brand-600 dark:bg-brand-500/10 dark:text-brand-300">
                   <g.icon className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <span className="min-w-0">
@@ -859,7 +896,7 @@ export default function ProfessionalPortfolio() {
       </section>
 
       {/* PROJECTS SECTION */}
-      <section id="work" aria-labelledby="work-heading" className="scroll-mt-20 py-28 px-6">
+      <section id="work" aria-labelledby="work-heading" className="scroll-mt-24 py-28 px-6">
         <div className="container mx-auto max-w-6xl">
           <div className="flex flex-col md:flex-row justify-between md:items-end gap-4">
             <SectionHeading id="work-heading" eyebrow="Projects" title="Featured Projects" description="What I built, the problem behind it, and what I contributed." />
@@ -880,7 +917,7 @@ export default function ProfessionalPortfolio() {
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.45, delay: i * 0.08 }}
                 aria-labelledby={`project-${i}-title`}
-                className="group grid overflow-hidden rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 shadow-sm transition-[border-color,box-shadow] duration-300 hover:shadow-lg hover:border-indigo-300 dark:hover:border-indigo-500/50 lg:grid-cols-2"
+                className="group grid overflow-hidden rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 shadow-sm transition-[border-color,box-shadow] duration-300 hover:shadow-lg hover:border-brand-300 dark:hover:border-brand-500/50 lg:grid-cols-2"
               >
                 <div className={`relative aspect-[16/9] overflow-hidden bg-slate-100 dark:bg-slate-800 lg:aspect-auto lg:min-h-[380px] ${i % 2 ? "lg:order-2" : ""}`}>
                   <Image
@@ -898,7 +935,7 @@ export default function ProfessionalPortfolio() {
                 </div>
 
                 <div className="flex flex-1 flex-col p-6 md:p-8">
-                  <p className="text-xs font-semibold uppercase tracking-widest text-indigo-600 dark:text-indigo-400" aria-hidden="true">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-brand-600 dark:text-brand-400" aria-hidden="true">
                     Project {String(i + 1).padStart(2, "0")}
                   </p>
                   <h3 id={`project-${i}-title`} className="mt-2 text-2xl font-bold text-slate-900 dark:text-white">{p.title}</h3>
@@ -916,7 +953,7 @@ export default function ProfessionalPortfolio() {
                   <ul className="mt-4 space-y-1.5 text-sm text-slate-600 dark:text-slate-400" aria-label="Key features">
                     {p.features.map((f) => (
                       <li key={f} className="flex gap-2">
-                        <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-indigo-500" aria-hidden="true" />
+                        <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-brand-500" aria-hidden="true" />
                         {f}
                       </li>
                     ))}
@@ -932,7 +969,7 @@ export default function ProfessionalPortfolio() {
 
                   <div className="mt-auto pt-6 flex flex-wrap items-center gap-2">
                     {p.live && (
-                      <a href={p.live} target="_blank" rel="noopener noreferrer" className={`${extLinkClass} bg-indigo-600 text-white hover:bg-indigo-700`}>
+                      <a href={p.live} target="_blank" rel="noopener noreferrer" className={`${extLinkClass} bg-brand-600 text-white hover:bg-brand-700`}>
                         <ExternalLink className="h-4 w-4" aria-hidden="true" /> Live demo
                         <span className="sr-only">of {p.title} (opens in a new tab)</span>
                       </a>
@@ -960,17 +997,17 @@ export default function ProfessionalPortfolio() {
       <StartupSection />
 
       {/* SKILLS & LEARNING SECTION */}
-      <section id="skills" aria-labelledby="skills-heading" className="scroll-mt-20 py-28 px-6">
+      <section id="skills" aria-labelledby="skills-heading" className="scroll-mt-24 py-28 px-6">
         <div className="container mx-auto max-w-6xl">
           <SectionHeading
             id="skills-heading"
             eyebrow="Skills & Learning"
-            title="What I know, and what I'm learning"
-            description="A live view of my learning: skills I've completed and the ones I'm actively working on."
+            title="What I've learned, and what I'm learning now"
+            description="Completed skills, the ones I've started, and what I'm studying now."
           />
           <SkillsLearningTracker />
 
-          <h3 className="mt-20 mb-6 text-2xl font-bold">Toolkit</h3>
+          <h3 className="mt-20 mb-6 font-display text-2xl font-bold">Toolkit</h3>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {DATA.skillCategories.map((category, idx) => (
               <motion.div
@@ -981,7 +1018,7 @@ export default function ProfessionalPortfolio() {
                 transition={{ delay: idx * 0.06 }}
                 className="bg-white dark:bg-slate-900/60 p-6 rounded-2xl border border-slate-200 dark:border-slate-800"
               >
-                <h4 className="text-base font-semibold mb-4 text-indigo-700 dark:text-indigo-300">{category.title}</h4>
+                <h4 className="text-base font-semibold mb-4 text-brand-700 dark:text-brand-300">{category.title}</h4>
                 <ul className="flex flex-wrap gap-2">
                   {category.skills.map((skill) => (
                     <li key={skill} className="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg text-sm font-medium">
@@ -997,7 +1034,7 @@ export default function ProfessionalPortfolio() {
       </section>
 
       {/* SERVICES SECTION */}
-      <section aria-labelledby="services-heading" className="py-28 px-6 bg-white dark:bg-[#050a18] border-y border-slate-200 dark:border-slate-800/60">
+      <section aria-labelledby="services-heading" className="py-28 px-6 bg-white dark:bg-[#07101c] border-y border-slate-200 dark:border-slate-800/60">
         <div className="container mx-auto max-w-6xl">
           <SectionHeading id="services-heading" eyebrow="What I do" title="Technical Arsenal" description="I don't just write code; I engineer solutions that bridge the gap between human intuition and machine logic." />
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -1008,9 +1045,9 @@ export default function ProfessionalPortfolio() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.06 }}
-                className="p-6 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 hover:border-indigo-300 dark:hover:border-indigo-500/50 transition-colors"
+                className="p-6 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 hover:border-brand-300 dark:hover:border-brand-500/50 transition-colors"
               >
-                <div className="mb-4 inline-flex p-3 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-300">
+                <div className="mb-4 inline-flex p-3 rounded-xl bg-brand-50 dark:bg-brand-500/10 text-brand-600 dark:text-brand-300">
                   <service.icon className="h-6 w-6" aria-hidden="true" />
                 </div>
                 <h3 className="text-lg font-bold mb-2">{service.title}</h3>
@@ -1022,7 +1059,7 @@ export default function ProfessionalPortfolio() {
       </section>
 
       {/* JOURNEY SECTION */}
-      <section id="career" aria-labelledby="career-heading" className="scroll-mt-20 py-28 px-6">
+      <section id="career" aria-labelledby="career-heading" className="scroll-mt-24 py-28 px-6">
         <div className="container mx-auto max-w-5xl">
           <SectionHeading id="career-heading" eyebrow="Journey" title="Experience, education & certifications" />
 
@@ -1048,7 +1085,7 @@ export default function ProfessionalPortfolio() {
             <TabsContent value="experience" className="mt-10">
             <div>
               <h3 className="sr-only">
-                <Briefcase className="h-6 w-6 text-indigo-500" aria-hidden="true" />
+                <Briefcase className="h-6 w-6 text-brand-500" aria-hidden="true" />
                 Work Experience
               </h3>
               <ol className="relative border-l-2 border-slate-200 dark:border-slate-800 ml-3 md:ml-6 space-y-8 pl-6 md:pl-10 py-2">
@@ -1061,7 +1098,7 @@ export default function ProfessionalPortfolio() {
                     transition={{ delay: i * 0.08 }}
                     className="relative"
                   >
-                    <span className="absolute -left-[33px] md:-left-[49px] top-0 p-2 rounded-full bg-slate-50 dark:bg-slate-900 border-2 border-indigo-500 text-indigo-500" aria-hidden="true">
+                    <span className="absolute -left-[33px] md:-left-[49px] top-0 p-2 rounded-full bg-slate-50 dark:bg-slate-900 border-2 border-brand-500 text-brand-500" aria-hidden="true">
                       <Briefcase className="h-4 w-4" />
                     </span>
                     <div className="p-6 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
@@ -1069,12 +1106,12 @@ export default function ProfessionalPortfolio() {
                         <div>
                           <h4 className="text-xl font-bold text-slate-900 dark:text-slate-100">{exp.role}</h4>
                           {"companyUrl" in exp && exp.companyUrl ? (
-                            <a href={exp.companyUrl} target="_blank" rel="noopener noreferrer" className="text-indigo-700 dark:text-indigo-300 font-medium hover:underline inline-flex items-center gap-1">
+                            <a href={exp.companyUrl} target="_blank" rel="noopener noreferrer" className="text-brand-700 dark:text-brand-300 font-medium hover:underline inline-flex items-center gap-1">
                               {exp.company} <ExternalLink className="h-3 w-3" aria-hidden="true" />
                               <span className="sr-only">(opens in a new tab)</span>
                             </a>
                           ) : (
-                            <span className="text-indigo-700 dark:text-indigo-300 font-medium">{exp.company}</span>
+                            <span className="text-brand-700 dark:text-brand-300 font-medium">{exp.company}</span>
                           )}
                         </div>
                         <span className="inline-block self-start px-3 py-1 bg-slate-100 dark:bg-slate-800 rounded-full text-xs font-semibold text-slate-600 dark:text-slate-300 whitespace-nowrap">
@@ -1092,7 +1129,7 @@ export default function ProfessionalPortfolio() {
             <TabsContent value="education" className="mt-10">
             <div>
               <h3 className="sr-only">
-                <GraduationCap className="h-6 w-6 text-indigo-500" aria-hidden="true" />
+                <GraduationCap className="h-6 w-6 text-brand-500" aria-hidden="true" />
                 Education History
               </h3>
               <ol className="relative border-l-2 border-slate-200 dark:border-slate-800 ml-3 md:ml-6 space-y-8 pl-6 md:pl-10 py-2">
@@ -1105,7 +1142,7 @@ export default function ProfessionalPortfolio() {
                     transition={{ delay: i * 0.08 }}
                     className="relative"
                   >
-                    <span className="absolute -left-[33px] md:-left-[49px] top-0 p-2 rounded-full bg-slate-50 dark:bg-slate-900 border-2 border-indigo-500 text-indigo-500" aria-hidden="true">
+                    <span className="absolute -left-[33px] md:-left-[49px] top-0 p-2 rounded-full bg-slate-50 dark:bg-slate-900 border-2 border-brand-500 text-brand-500" aria-hidden="true">
                       <GraduationCap className="h-4 w-4" />
                     </span>
                     <div className="p-6 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
@@ -1113,12 +1150,12 @@ export default function ProfessionalPortfolio() {
                         <div>
                           <h4 className="text-xl font-bold text-slate-900 dark:text-slate-100">{edu.degree}</h4>
                           {edu.link ? (
-                            <a href={edu.link} target="_blank" rel="noopener noreferrer" className="text-indigo-700 dark:text-indigo-300 font-medium hover:underline inline-flex items-center gap-1">
+                            <a href={edu.link} target="_blank" rel="noopener noreferrer" className="text-brand-700 dark:text-brand-300 font-medium hover:underline inline-flex items-center gap-1">
                               {edu.institution} <ExternalLink className="h-3 w-3" aria-hidden="true" />
                               <span className="sr-only">(map, opens in a new tab)</span>
                             </a>
                           ) : (
-                            <span className="text-indigo-700 dark:text-indigo-300 font-medium">{edu.institution}</span>
+                            <span className="text-brand-700 dark:text-brand-300 font-medium">{edu.institution}</span>
                           )}
                         </div>
                         <span className="inline-block self-start px-3 py-1 bg-slate-100 dark:bg-slate-800 rounded-full text-xs font-semibold text-slate-600 dark:text-slate-300 whitespace-nowrap">
@@ -1139,7 +1176,7 @@ export default function ProfessionalPortfolio() {
             <TabsContent value="certifications" className="mt-10">
             <div>
               <h3 className="sr-only">
-                <Award className="h-6 w-6 text-indigo-500" aria-hidden="true" />
+                <Award className="h-6 w-6 text-brand-500" aria-hidden="true" />
                 Certifications
               </h3>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -1155,13 +1192,13 @@ export default function ProfessionalPortfolio() {
                       >
                         {/* Front Side */}
                         <div
-                          className="absolute inset-0 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 hover:border-indigo-400 dark:hover:border-indigo-500/60 transition-colors overflow-hidden flex flex-col"
+                          className="absolute inset-0 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 hover:border-brand-400 dark:hover:border-brand-500/60 transition-colors overflow-hidden flex flex-col"
                           style={{ backfaceVisibility: "hidden" }}
                           aria-hidden={flipped}
                         >
-                          <div className="relative h-28 shrink-0 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 dark:from-indigo-500/15 dark:to-purple-500/15 flex items-center justify-center">
-                            <Award className="h-14 w-14 text-indigo-500/30 dark:text-indigo-300/30" aria-hidden="true" />
-                            <span className="absolute bottom-3 left-3 text-xs font-bold px-3 py-1 rounded-full bg-indigo-600 text-white">
+                          <div className="relative h-28 shrink-0 bg-gradient-to-br from-brand-500/10 to-sky-500/10 dark:from-brand-500/15 dark:to-sky-500/15 flex items-center justify-center">
+                            <Award className="h-14 w-14 text-brand-500/30 dark:text-brand-300/30" aria-hidden="true" />
+                            <span className="absolute bottom-3 left-3 text-xs font-bold px-3 py-1 rounded-full bg-brand-600 text-white">
                               {cert.issuer}
                             </span>
                           </div>
@@ -1178,7 +1215,7 @@ export default function ProfessionalPortfolio() {
                                   setTimeout(() => document.getElementById(`cert-close-${i}`)?.focus(), 50);
                                 }}
                                 tabIndex={flipped ? -1 : 0}
-                                className="text-sm font-semibold text-indigo-700 dark:text-indigo-300 hover:underline underline-offset-2"
+                                className="text-sm font-semibold text-brand-700 dark:text-brand-300 hover:underline underline-offset-2"
                               >
                                 Preview certificate
                               </button>
@@ -1230,7 +1267,7 @@ export default function ProfessionalPortfolio() {
             <TabsContent value="achievements" className="mt-10">
             <div>
               <h3 className="sr-only">
-                <Trophy className="h-6 w-6 text-indigo-500" aria-hidden="true" />
+                <Trophy className="h-6 w-6 text-brand-500" aria-hidden="true" />
                 Achievements
               </h3>
               <ul className="space-y-4">
@@ -1247,7 +1284,7 @@ export default function ProfessionalPortfolio() {
                     <div>
                       <h4 className="text-lg font-bold text-slate-900 dark:text-slate-100">{item.title}</h4>
                       <p className="text-slate-600 dark:text-slate-400">{item.description}</p>
-                      <span className="text-xs font-semibold text-indigo-700 dark:text-indigo-300 mt-1 inline-block">{item.year}</span>
+                      <span className="text-xs font-semibold text-brand-700 dark:text-brand-300 mt-1 inline-block">{item.year}</span>
                     </div>
                   </motion.li>
                 ))}
@@ -1261,9 +1298,9 @@ export default function ProfessionalPortfolio() {
             {DATA.hobbies.map((hobby) => (
               <li
                 key={hobby}
-                className="flex items-center gap-3 p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 hover:border-indigo-300 dark:hover:border-indigo-500/50 transition-colors"
+                className="flex items-center gap-3 p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 hover:border-brand-300 dark:hover:border-brand-500/50 transition-colors"
               >
-                <span className="h-2 w-2 shrink-0 rounded-full bg-indigo-500" aria-hidden="true" />
+                <span className="h-2 w-2 shrink-0 rounded-full bg-brand-500" aria-hidden="true" />
                 <span className="font-medium text-slate-800 dark:text-slate-100">{hobby}</span>
               </li>
             ))}
@@ -1274,7 +1311,7 @@ export default function ProfessionalPortfolio() {
       </section>
 
       {/* CONTACT SECTION */}
-      <section id="contact" aria-labelledby="contact-heading" className="relative pt-28 pb-36 px-6 overflow-hidden bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white">
+      <section id="contact" aria-labelledby="contact-heading" className="relative pt-28 pb-36 px-6 overflow-hidden bg-gradient-to-br from-slate-900 via-brand-950 to-slate-900 text-white">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:40px_40px]" aria-hidden="true" />
 
         <div className="container mx-auto max-w-6xl relative z-10">
@@ -1287,8 +1324,8 @@ export default function ProfessionalPortfolio() {
             transition={{ duration: 0.5 }}
             className="mb-10"
           >
-            <h2 id="contact-heading" className="text-4xl md:text-5xl font-black mb-4">Let&apos;s Connect</h2>
-            <p className="text-lg md:text-xl text-indigo-100/90 max-w-xl">
+            <h2 id="contact-heading" className="font-display text-4xl md:text-5xl font-bold mb-4">Let&apos;s Connect</h2>
+            <p className="text-lg md:text-xl text-brand-100/90 max-w-xl">
               Hiring, collaborating, or interested in SriVoraTech? Get in touch.
             </p>
           </motion.div>
@@ -1305,13 +1342,13 @@ export default function ProfessionalPortfolio() {
                 <a
                   href={c.href}
                   {...(c.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                  className="group flex h-full flex-col p-6 rounded-2xl bg-white/5 border border-white/15 hover:border-indigo-300/60 hover:bg-white/10 transition-colors"
+                  className="group flex h-full flex-col p-6 rounded-2xl bg-white/5 border border-white/15 hover:border-brand-300/60 hover:bg-white/10 transition-colors"
                 >
-                  <span className="mb-4 w-11 h-11 rounded-xl bg-indigo-500/20 text-indigo-200 flex items-center justify-center">
+                  <span className="mb-4 w-11 h-11 rounded-xl bg-brand-500/20 text-brand-200 flex items-center justify-center">
                     <c.icon className="h-5 w-5" aria-hidden="true" />
                   </span>
                   <span className="text-lg font-bold">{c.title}</span>
-                  <span className="text-indigo-100/80 text-sm break-all">{c.value}</span>
+                  <span className="text-brand-100/80 text-sm break-all">{c.value}</span>
                   {c.external && <span className="sr-only">(opens in a new tab)</span>}
                 </a>
               </li>
@@ -1344,13 +1381,13 @@ export default function ProfessionalPortfolio() {
           </div>
 
           <footer className="mt-20 text-center pt-8 border-t border-white/10">
-            <p className="text-indigo-100/90 text-sm">
+            <p className="text-brand-100/90 text-sm">
               © {new Date().getFullYear()} <span className="font-bold text-white">{DATA.name}</span> · Founder & CEO,{" "}
               <a href={srivoratech.url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-white">
                 SriVoraTech
               </a>
             </p>
-            <p className="text-indigo-100/60 text-xs mt-2">Built with Next.js & Tailwind CSS</p>
+            <p className="text-brand-100/60 text-xs mt-2">Built with Next.js & Tailwind CSS</p>
           </footer>
         </div>
       </section>
@@ -1387,7 +1424,7 @@ export default function ProfessionalPortfolio() {
                 <X className="h-5 w-5 text-slate-700 dark:text-slate-200" aria-hidden="true" />
               </button>
 
-              <div className="p-8 md:p-10 bg-gradient-to-br from-indigo-600 to-purple-700 text-white">
+              <div className="p-8 md:p-10 bg-gradient-to-br from-brand-600 to-sky-700 text-white">
                 <h3 id="project-dialog-title" className="text-3xl font-bold pr-10">{project.title}</h3>
                 <ul className="flex flex-wrap gap-2 mt-4" aria-label="Technologies">
                   {project.tags.map((tag) => (
@@ -1438,7 +1475,7 @@ export default function ProfessionalPortfolio() {
                       href={project.live}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 transition-colors"
+                      className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-brand-600 text-white rounded-xl font-semibold hover:bg-brand-700 transition-colors"
                     >
                       <ExternalLink className="h-5 w-5" aria-hidden="true" />
                       View Live<span className="sr-only"> (opens in a new tab)</span>
@@ -1482,7 +1519,7 @@ export default function ProfessionalPortfolio() {
                 <X className="h-5 w-5 text-white" aria-hidden="true" />
               </button>
 
-              <div className="p-8 md:p-10 bg-gradient-to-br from-indigo-600 to-purple-700 text-white relative overflow-hidden">
+              <div className="p-8 md:p-10 bg-gradient-to-br from-brand-600 to-sky-700 text-white relative overflow-hidden">
                 <div className="absolute top-0 right-0 p-8 opacity-10" aria-hidden="true">
                   <User className="h-64 w-64" />
                 </div>
@@ -1496,25 +1533,25 @@ export default function ProfessionalPortfolio() {
 
                   <dl className="space-y-6">
                     <div className="border-b border-white/20 pb-4">
-                      <dt className="text-indigo-100 text-sm font-medium mb-1">Name</dt>
+                      <dt className="text-brand-100 text-sm font-medium mb-1">Name</dt>
                       <dd className="text-2xl font-bold">{DATA.personalDetails.name}</dd>
                     </div>
                     <div className="border-b border-white/20 pb-4">
-                      <dt className="text-indigo-100 text-sm font-medium mb-1">Born</dt>
+                      <dt className="text-brand-100 text-sm font-medium mb-1">Born</dt>
                       <dd className="text-xl font-semibold">{DATA.personalDetails.dob}</dd>
                     </div>
                     <div className="border-b border-white/20 pb-4">
-                      <dt className="text-indigo-100 text-sm font-medium mb-1">Contact</dt>
+                      <dt className="text-brand-100 text-sm font-medium mb-1">Contact</dt>
                       <dd className="text-lg font-mono">{DATA.personalDetails.phone}</dd>
                       <dd className="text-lg font-mono break-all">{DATA.personalDetails.email}</dd>
                     </div>
                     <div className="border-b border-white/20 pb-4">
-                      <dt className="text-indigo-100 text-sm font-medium mb-1">Family</dt>
+                      <dt className="text-brand-100 text-sm font-medium mb-1">Family</dt>
                       <dd className="text-lg">Father: {DATA.personalDetails.father}</dd>
                       <dd className="text-lg">Mother: {DATA.personalDetails.mother}</dd>
                     </div>
                     <div>
-                      <dt className="text-indigo-100 text-sm font-medium mb-1">Address</dt>
+                      <dt className="text-brand-100 text-sm font-medium mb-1">Address</dt>
                       <dd className="text-lg">{DATA.personalDetails.address}</dd>
                     </div>
                   </dl>
@@ -1547,7 +1584,7 @@ export default function ProfessionalPortfolio() {
           onClick={() => setShowPersonalInfo(true)}
           aria-label="Show personal details"
           aria-haspopup="dialog"
-          className="h-12 w-12 sm:h-14 sm:w-14 flex items-center justify-center rounded-full bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg transition-colors"
+          className="h-12 w-12 sm:h-14 sm:w-14 flex items-center justify-center rounded-full bg-brand-600 hover:bg-brand-700 text-white shadow-lg transition-colors"
         >
           <Info className="h-6 w-6" aria-hidden="true" />
         </button>

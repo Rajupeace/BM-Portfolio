@@ -9,7 +9,7 @@ export function StartupSection() {
   const upcoming = srivoratech.products.filter((p) => p.status === "upcoming");
 
   return (
-    <section id="startup" aria-labelledby="startup-heading" className="scroll-mt-20 py-28 px-6 bg-white dark:bg-[#050a18] border-y border-slate-200 dark:border-slate-800/60">
+    <section id="startup" aria-labelledby="startup-heading" className="scroll-mt-24 py-28 px-6 bg-white dark:bg-[#07101c] border-y border-slate-200 dark:border-slate-800/60">
       <div className="container mx-auto max-w-6xl">
         <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] items-start">
           <motion.div
@@ -18,11 +18,11 @@ export function StartupSection() {
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.5 }}
           >
-            <p className="text-sm font-semibold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">My startup</p>
+            <p className="text-sm font-semibold uppercase tracking-widest text-brand-600 dark:text-brand-400">My startup</p>
             <h2 id="startup-heading" className="mt-3 text-4xl md:text-5xl font-bold tracking-tight">
               {srivoratech.name}
             </h2>
-            <p className="mt-3 inline-flex items-center gap-2 rounded-full border border-indigo-200 dark:border-indigo-500/30 bg-indigo-50 dark:bg-indigo-500/10 px-3 py-1 text-sm font-semibold text-indigo-700 dark:text-indigo-300">
+            <p className="mt-3 inline-flex items-center gap-2 rounded-full border border-brand-200 dark:border-brand-500/30 bg-brand-50 dark:bg-brand-500/10 px-3 py-1 text-sm font-semibold text-brand-700 dark:text-brand-300">
               <Building2 className="h-4 w-4" aria-hidden="true" />
               {srivoratech.myRole}
             </p>
@@ -106,7 +106,7 @@ export function StartupSection() {
             <h3 className="text-2xl font-bold">Products</h3>
             <p className="text-sm text-slate-500 dark:text-slate-400">
               As listed on{" "}
-              <a href={srivoratech.url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-indigo-600 dark:hover:text-indigo-400">
+              <a href={srivoratech.url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-brand-600 dark:hover:text-brand-400">
                 srivoratech.in
               </a>
             </p>
@@ -116,7 +116,7 @@ export function StartupSection() {
             {[...live, ...upcoming].map((p) => (
               <li
                 key={p.name}
-                className="group flex flex-col rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/40 p-5 transition-colors hover:border-indigo-400 dark:hover:border-indigo-500/60"
+                className="group flex flex-col rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/40 p-5 transition-colors hover:border-brand-400 dark:hover:border-brand-500/60"
               >
                 <div className="flex items-start justify-between gap-3">
                   <p className="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">{p.category}</p>
@@ -138,7 +138,7 @@ export function StartupSection() {
                     href={p.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:underline underline-offset-2"
+                    className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-600 dark:text-brand-400 hover:underline underline-offset-2"
                   >
                     Open demo <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
                     <span className="sr-only">for {p.name} (opens in a new tab)</span>
