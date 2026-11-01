@@ -475,6 +475,7 @@ export default function ProfessionalPortfolio() {
     if (flippedCert === null) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
+        if (document.querySelector('[role="dialog"]')) return;
         const i = flippedCert;
         setFlippedCert(null);
         setTimeout(() => document.getElementById(`cert-preview-${i}`)?.focus(), 50);
@@ -1352,7 +1353,7 @@ export default function ProfessionalPortfolio() {
       </AnimatePresence>
 
       {/* Floating actions (stacked above the dock on small screens) */}
-      <div className="fixed right-4 sm:right-6 bottom-20 sm:bottom-6 z-[90] flex flex-col items-end gap-3">
+      <div className="fixed right-4 sm:right-6 bottom-20 sm:bottom-24 lg:bottom-6 z-[90] flex flex-col items-end gap-3">
         <AnimatePresence>
           {showScrollTop && (
             <motion.button
