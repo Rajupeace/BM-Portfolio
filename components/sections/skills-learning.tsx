@@ -1,11 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { CheckCircle2, CircleDashed, BookOpen, Target, ListTodo } from "lucide-react";
+import { CheckCircle2, CircleDashed, BookOpen, Target, ListTodo, CalendarDays } from "lucide-react";
 import {
   learningSkills,
   currentFocus,
   nextUp,
+  lastUpdated,
   statusLabels,
   type LearningStatus,
 } from "@/content/learning";
@@ -40,6 +41,15 @@ export function SkillsLearningTracker() {
 
   return (
     <div>
+      <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+        <p className="text-sm font-medium text-slate-600 dark:text-slate-300">
+          A snapshot of what I’ve completed and what I’m learning now.
+        </p>
+        <p className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-300">
+          <CalendarDays className="h-3.5 w-3.5" aria-hidden="true" />
+          Updated {lastUpdated}
+        </p>
+      </div>
       <div className="grid gap-6 md:grid-cols-3">
         {GROUPS.map(({ status, heading }, gi) => {
           const items = learningSkills.filter((s) => s.status === status);

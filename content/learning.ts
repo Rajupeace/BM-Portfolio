@@ -25,12 +25,14 @@ export interface LearningSkill {
 
 export const learningSkills: LearningSkill[] = [
   { name: "Git & GitHub", status: "completed" },
-  { name: "Docker", status: "in-progress", note: "Started" },
+  { name: "Docker", status: "in-progress", note: "Just started" },
   { name: "DevOps", status: "learning" },
   { name: "MLOps", status: "learning" },
 ];
 
-export const currentFocus = "Docker";
+export const currentFocus = "DevOps & MLOps";
+
+export const lastUpdated = "November 2026";
 
 export const nextUp: string[] = [];
 
