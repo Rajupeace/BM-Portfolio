@@ -75,9 +75,11 @@ const MONTHS = ["January", "February", "March", "April", "May", "June", "July", 
 function formatDate(iso: string) {
   const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso.trim());
   if (!m) return { label: iso, dateTime: undefined };
-  const month = MONTHS[Number(m[2]) - 1];
-  if (!month) return { label: iso, dateTime: undefined };
-  return { label: `${Number(m[3])} ${month} ${m[1]}`, dateTime: iso.trim() };
+  const [year, monthNum, day] = [Number(m[1]), Number(m[2]), Number(m[3])];
+  const month = MONTHS[monthNum - 1];
+  const daysInMonth = new Date(Date.UTC(year, monthNum, 0)).getUTCDate();
+  if (!month || day < 1 || day > daysInMonth) return { label: iso, dateTime: undefined };
+  return { label: `${day} ${month} ${year}`, dateTime: iso.trim() };
 }
 
 function StatusBadge({ status }: { status: LearningStatus }) {
