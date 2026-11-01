@@ -9,7 +9,7 @@ export function StartupSection() {
   const upcoming = srivoratech.products.filter((p) => p.status === "upcoming");
 
   return (
-    <section id="startup" aria-labelledby="startup-heading" className="scroll-mt-8 py-28 px-6 bg-white dark:bg-[#050a18] border-y border-slate-200 dark:border-slate-800/60">
+    <section id="startup" aria-labelledby="startup-heading" className="scroll-mt-20 py-28 px-6 bg-white dark:bg-[#050a18] border-y border-slate-200 dark:border-slate-800/60">
       <div className="container mx-auto max-w-6xl">
         <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] items-start">
           <motion.div

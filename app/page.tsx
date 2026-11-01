@@ -38,6 +38,8 @@ import {
   FileText,
   AlertTriangle,
   Trophy,
+  Menu,
+  Heart,
 } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -45,6 +47,8 @@ import { toast } from "sonner";
 import { SkillsLearningTracker } from "@/components/sections/skills-learning";
 import { StartupSection } from "@/components/sections/startup-section";
 import { srivoratech } from "@/content/srivoratech";
+import { currentFocus } from "@/content/learning";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 // ---- DATA ----
 const DATA = {
@@ -356,43 +360,145 @@ function useDialog(open: boolean, onClose: () => void) {
   return closeRef;
 }
 
-// Floating Dock Navigation
-const FloatingDock = () => {
+// Sticky site header with section links, theme toggle and mobile menu
+const SiteHeader = () => {
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [active, setActive] = useState("home");
   useEffect(() => setMounted(true), []);
   const isDark = mounted && resolvedTheme === "dark";
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px" }
+    );
+    NAV_ITEMS.forEach(({ id }) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  const linkClass = (id: string) =>
+    `rounded-full px-3 py-2 text-sm font-medium transition-colors ${
+      active === id
+        ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-300"
+        : "text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
+    }`;
+
   return (
-    <div className="fixed inset-x-0 bottom-4 sm:bottom-6 z-50 flex justify-center px-3 pointer-events-none">
-    <motion.nav
-      aria-label="Primary"
-      initial={{ y: 40, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ delay: 0.4, duration: 0.4 }}
-      className="pointer-events-auto flex items-center gap-1 sm:gap-2 p-1.5 sm:p-2 rounded-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg border border-slate-200 dark:border-white/10 shadow-lg"
+    <header
+      className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300 ${
+        open
+          ? "border-slate-200 bg-white dark:border-slate-800 dark:bg-[#030712]"
+          : scrolled
+            ? "border-slate-200 bg-white/85 backdrop-blur-lg dark:border-slate-800 dark:bg-[#030712]/85"
+            : "border-transparent bg-transparent"
+      }`}
     >
-      {NAV_ITEMS.map((item) => (
-        <a
-          key={item.id}
-          href={`#${item.id}`}
-          className="flex items-center gap-2 p-2.5 sm:px-4 sm:py-2 text-sm font-medium rounded-full text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
-        >
-          <item.icon className="h-4 w-4 sm:hidden" aria-hidden="true" />
-          <span className="sr-only sm:not-sr-only">{item.label}</span>
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
+        <a href="#home" className="flex items-center gap-2.5 rounded-lg font-bold text-slate-900 dark:text-white">
+          <span className="grid h-9 w-9 place-items-center rounded-lg bg-indigo-600 text-sm text-white" aria-hidden="true">BS</span>
+          <span className="hidden sm:block">{DATA.name}</span>
+          <span className="sr-only sm:hidden">{DATA.name}, home</span>
         </a>
-      ))}
-      <div className="h-6 w-px bg-slate-300 dark:bg-slate-700 mx-0.5 sm:mx-1" aria-hidden="true" />
-      <button
-        type="button"
-        onClick={() => setTheme(isDark ? "light" : "dark")}
-        aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
-        className="p-2.5 sm:p-2 rounded-full text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
-      >
-        {isDark ? <Sun size={18} aria-hidden="true" /> : <Moon size={18} aria-hidden="true" />}
-      </button>
-    </motion.nav>
-    </div>
+
+        <nav aria-label="Primary" className="hidden md:block">
+          <ul className="flex items-center gap-1">
+            {NAV_ITEMS.filter((item) => item.id !== "home").map((item) => (
+              <li key={item.id}>
+                <a href={`#${item.id}`} aria-current={active === item.id ? "true" : undefined} className={linkClass(item.id)}>
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setTheme(isDark ? "light" : "dark")}
+            aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
+            className="rounded-full p-2.5 text-slate-700 transition-colors hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/10"
+          >
+            {isDark ? <Sun size={18} aria-hidden="true" /> : <Moon size={18} aria-hidden="true" />}
+          </button>
+          <a
+            href={DATA.resume}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden items-center gap-1.5 rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-slate-700 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200 sm:inline-flex"
+          >
+            Resume <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+            <span className="sr-only">(PDF, opens in a new tab)</span>
+          </a>
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+            aria-label={open ? "Close menu" : "Open menu"}
+            className="rounded-full p-2.5 text-slate-700 transition-colors hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/10 md:hidden"
+          >
+            {open ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
+          </button>
+        </div>
+      </div>
+
+      {open && (
+        <nav id="mobile-nav" aria-label="Mobile" className="border-t border-slate-200 px-4 pb-4 dark:border-slate-800 md:hidden">
+          <ul className="grid gap-1 pt-3">
+            {NAV_ITEMS.map((item) => (
+              <li key={item.id}>
+                <a
+                  href={`#${item.id}`}
+                  onClick={() => setOpen(false)}
+                  aria-current={active === item.id ? "true" : undefined}
+                  className={`flex items-center gap-3 ${linkClass(item.id)} rounded-xl py-3`}
+                >
+                  <item.icon className="h-4 w-4" aria-hidden="true" /> {item.label}
+                </a>
+              </li>
+            ))}
+            <li>
+              <a
+                href={DATA.resume}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 flex items-center justify-center gap-2 rounded-xl bg-slate-900 py-3 text-sm font-semibold text-white dark:bg-white dark:text-slate-900"
+              >
+                <FileText className="h-4 w-4" aria-hidden="true" /> View resume
+                <span className="sr-only">(PDF, opens in a new tab)</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      )}
+    </header>
   );
 };
 
@@ -518,6 +624,14 @@ export default function ProfessionalPortfolio() {
 
   const project = selectedProject !== null ? DATA.projects[selectedProject] : null;
 
+  const liveProducts = srivoratech.products.filter((p) => p.status === "live-demo").length;
+  const glance = [
+    { href: "#work", icon: FolderGit2, label: "Projects", value: `${DATA.projects.length} featured builds` },
+    { href: "#startup", icon: Building2, label: "SriVoraTech", value: `${liveProducts} live product demos` },
+    { href: "#skills", icon: Wrench, label: "Current focus", value: currentFocus || "Skills & learning" },
+    { href: "#contact", icon: AtSign, label: "Contact", value: "Hiring or collaborating?" },
+  ];
+
   return (
     <MotionConfig reducedMotion="user">
     <div className="min-h-screen bg-slate-50 dark:bg-[#030712] text-slate-900 dark:text-slate-50 transition-colors duration-300 font-sans selection:bg-indigo-500/30">
@@ -542,12 +656,12 @@ export default function ProfessionalPortfolio() {
         aria-hidden="true"
       />
 
-      <FloatingDock />
+      <SiteHeader />
 
       <main id="main" className="relative z-10">
       {/* HERO SECTION */}
-      <section id="home" tabIndex={-1} aria-labelledby="hero-heading" className="relative min-h-screen flex items-center justify-center px-6 lg:px-20 pt-20 pb-28 outline-none">
-        <div className="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-12 items-center">
+      <section id="home" tabIndex={-1} aria-labelledby="hero-heading" className="relative min-h-[92vh] flex items-center justify-center px-6 pt-28 pb-24 outline-none">
+        <div className="relative z-10 max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-[1.25fr_0.75fr] gap-12 lg:gap-16 items-center">
           {/* Text Content */}
           <div>
             <motion.p
@@ -622,9 +736,6 @@ export default function ProfessionalPortfolio() {
               className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm font-medium text-slate-600 dark:text-slate-400"
               aria-label="Quick links"
             >
-              <li><a href="#skills" className="hover:text-indigo-600 dark:hover:text-indigo-400 underline-offset-4 hover:underline">Skills & learning tracker</a></li>
-              <li><a href="#startup" className="hover:text-indigo-600 dark:hover:text-indigo-400 underline-offset-4 hover:underline">About SriVoraTech</a></li>
-              <li><a href="#contact" className="hover:text-indigo-600 dark:hover:text-indigo-400 underline-offset-4 hover:underline">Contact</a></li>
               <li>
                 <a href={DATA.resume} download="Badisa_Srikanth_Resume.pdf" className="inline-flex items-center gap-1 hover:text-indigo-600 dark:hover:text-indigo-400 underline-offset-4 hover:underline">
                   <Download className="h-3.5 w-3.5" aria-hidden="true" /> Download CV
@@ -638,19 +749,20 @@ export default function ProfessionalPortfolio() {
             </motion.ul>
           </div>
 
-          {/* Profile Picture */}
-          <div className="flex justify-center lg:justify-end relative">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.92 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.15 }}
-              className="relative z-10"
-            >
-              <div className="absolute -inset-3 bg-gradient-to-tr from-indigo-500/30 to-purple-500/30 rounded-full blur-2xl" aria-hidden="true" />
+          {/* Profile card */}
+          <motion.aside
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.15 }}
+            aria-label="Profile summary"
+            className="relative mx-auto w-full max-w-sm lg:mr-0"
+          >
+            <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-tr from-indigo-500/20 to-purple-500/20 blur-2xl" aria-hidden="true" />
+            <div className="relative rounded-3xl border border-slate-200 bg-white/90 p-5 shadow-xl backdrop-blur dark:border-slate-800 dark:bg-slate-900/80">
               <button
                 type="button"
                 aria-label="Show next profile photo"
-                className="relative block w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white dark:border-slate-800 shadow-xl"
+                className="relative block aspect-square w-full overflow-hidden rounded-2xl bg-slate-100 dark:bg-slate-800"
                 onClick={() => setCurrentImageIndex((prev) => (prev + 1) % profileImages.length)}
               >
                 <motion.div
@@ -658,47 +770,96 @@ export default function ProfessionalPortfolio() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.4 }}
-                  className="w-full h-full relative"
+                  className="relative h-full w-full"
                 >
                   <Image
                     src={profileImages[currentImageIndex]}
                     alt={`Portrait of ${DATA.name}`}
                     fill
-                    sizes="(min-width: 768px) 320px, 288px"
+                    sizes="(min-width: 1024px) 384px, 90vw"
                     className="object-cover"
                     priority
                   />
                 </motion.div>
               </button>
 
-              {/* Badge (Bottom Left) */}
-              <div className="absolute -bottom-2 -left-4 md:-left-8 bg-white dark:bg-slate-900 p-3 rounded-xl shadow-lg border border-slate-200 dark:border-slate-800 flex items-center gap-3">
-                <div className="p-2 bg-indigo-100 dark:bg-indigo-900/40 rounded-full">
-                  <Building2 className="h-5 w-5 text-indigo-600 dark:text-indigo-300" aria-hidden="true" />
-                </div>
+              <div className="mt-5 flex items-start justify-between gap-3">
                 <div>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold">Founder & CEO</p>
-                  <p className="text-sm font-bold text-slate-900 dark:text-white">SriVoraTech</p>
+                  <p className="text-lg font-bold text-slate-900 dark:text-white">{DATA.name}</p>
+                  <p className="text-sm text-slate-600 dark:text-slate-400">{DATA.role}</p>
                 </div>
+                <span className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" aria-hidden="true" /> Open to Work
+                </span>
               </div>
 
-              {/* Badge (Top Right) */}
-              <div className="absolute -top-2 -right-4 md:-right-8 bg-white dark:bg-slate-900 p-3 rounded-xl shadow-lg border border-slate-200 dark:border-slate-800 flex items-center gap-3">
-                <div className="p-2 bg-emerald-100 dark:bg-emerald-900/40 rounded-full">
-                  <Code2 className="h-5 w-5 text-emerald-700 dark:text-emerald-300" aria-hidden="true" />
-                </div>
-                <div>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold">Current Status</p>
-                  <p className="text-sm font-bold text-emerald-700 dark:text-emerald-300">Open to Work</p>
-                </div>
-              </div>
-            </motion.div>
-          </div>
+              <a
+                href={srivoratech.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 flex items-center justify-between gap-3 rounded-xl border border-slate-200 p-3 transition-colors hover:border-indigo-300 dark:border-slate-800 dark:hover:border-indigo-500/50"
+              >
+                <span className="flex items-center gap-3">
+                  <span className="rounded-lg bg-indigo-50 p-2 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-300">
+                    <Building2 className="h-4 w-4" aria-hidden="true" />
+                  </span>
+                  <span>
+                    <span className="block text-xs font-semibold text-slate-500 dark:text-slate-400">{srivoratech.myRole}</span>
+                    <span className="block text-sm font-bold text-slate-900 dark:text-white">{srivoratech.name}</span>
+                  </span>
+                </span>
+                <ArrowUpRight className="h-4 w-4 text-slate-400" aria-hidden="true" />
+                <span className="sr-only">(opens in a new tab)</span>
+              </a>
+
+              <ul className="mt-4 flex gap-2" aria-label="Profiles">
+                {[
+                  { icon: Github, href: DATA.contact.github, label: "GitHub (opens in a new tab)", external: true },
+                  { icon: Linkedin, href: DATA.contact.linkedin, label: "LinkedIn (opens in a new tab)", external: true },
+                  { icon: Mail, href: `mailto:${DATA.contact.email}`, label: `Email ${DATA.contact.email}`, external: false },
+                ].map((item) => (
+                  <li key={item.label} className="flex-1">
+                    <a
+                      href={item.href}
+                      aria-label={item.label}
+                      {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                      className="flex items-center justify-center rounded-xl border border-slate-200 p-2.5 text-slate-700 transition-colors hover:bg-slate-100 dark:border-slate-800 dark:text-slate-200 dark:hover:bg-slate-800"
+                    >
+                      <item.icon className="h-4 w-4" aria-hidden="true" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </motion.aside>
         </div>
       </section>
 
+      {/* AT A GLANCE */}
+      <section aria-label="At a glance" className="relative px-6 pb-8">
+        <ul className="mx-auto grid max-w-6xl gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {glance.map((g) => (
+            <li key={g.href}>
+              <a
+                href={g.href}
+                className="group flex h-full items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-indigo-300 hover:shadow-md dark:border-slate-800 dark:bg-slate-900/60 dark:hover:border-indigo-500/50"
+              >
+                <span className="rounded-xl bg-indigo-50 p-3 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-300">
+                  <g.icon className="h-5 w-5" aria-hidden="true" />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">{g.label}</span>
+                  <span className="block font-semibold text-slate-900 dark:text-white">{g.value}</span>
+                </span>
+                <ArrowRight className="ml-auto h-4 w-4 shrink-0 text-slate-400 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+
       {/* PROJECTS SECTION */}
-      <section id="work" aria-labelledby="work-heading" className="scroll-mt-8 py-28 px-6">
+      <section id="work" aria-labelledby="work-heading" className="scroll-mt-20 py-28 px-6">
         <div className="container mx-auto max-w-6xl">
           <div className="flex flex-col md:flex-row justify-between md:items-end gap-4">
             <SectionHeading id="work-heading" eyebrow="Projects" title="Featured Projects" description="What I built, the problem behind it, and what I contributed." />
@@ -710,7 +871,7 @@ export default function ProfessionalPortfolio() {
             </Button>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="space-y-8">
             {DATA.projects.map((p, i) => (
               <motion.article
                 key={p.title}
@@ -719,14 +880,14 @@ export default function ProfessionalPortfolio() {
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.45, delay: i * 0.08 }}
                 aria-labelledby={`project-${i}-title`}
-                className="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 shadow-sm transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-indigo-300 dark:hover:border-indigo-500/50"
+                className="group grid overflow-hidden rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 shadow-sm transition-[border-color,box-shadow] duration-300 hover:shadow-lg hover:border-indigo-300 dark:hover:border-indigo-500/50 lg:grid-cols-2"
               >
-                <div className="relative aspect-[16/9] overflow-hidden bg-slate-100 dark:bg-slate-800">
+                <div className={`relative aspect-[16/9] overflow-hidden bg-slate-100 dark:bg-slate-800 lg:aspect-auto lg:min-h-[380px] ${i % 2 ? "lg:order-2" : ""}`}>
                   <Image
                     src={p.image}
                     alt={`Screenshot of ${p.title}`}
                     fill
-                    sizes="(min-width: 1024px) 380px, (min-width: 768px) 50vw, 100vw"
+                    sizes="(min-width: 1024px) 560px, 100vw"
                     className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                   />
                   <span
@@ -736,8 +897,11 @@ export default function ProfessionalPortfolio() {
                   </span>
                 </div>
 
-                <div className="flex flex-1 flex-col p-6">
-                  <h3 id={`project-${i}-title`} className="text-xl font-bold text-slate-900 dark:text-white">{p.title}</h3>
+                <div className="flex flex-1 flex-col p-6 md:p-8">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-indigo-600 dark:text-indigo-400" aria-hidden="true">
+                    Project {String(i + 1).padStart(2, "0")}
+                  </p>
+                  <h3 id={`project-${i}-title`} className="mt-2 text-2xl font-bold text-slate-900 dark:text-white">{p.title}</h3>
                   <dl className="mt-3 space-y-3 text-sm leading-relaxed">
                     <div>
                       <dt className="font-semibold text-slate-900 dark:text-slate-100">Problem</dt>
@@ -796,7 +960,7 @@ export default function ProfessionalPortfolio() {
       <StartupSection />
 
       {/* SKILLS & LEARNING SECTION */}
-      <section id="skills" aria-labelledby="skills-heading" className="scroll-mt-8 py-28 px-6">
+      <section id="skills" aria-labelledby="skills-heading" className="scroll-mt-20 py-28 px-6">
         <div className="container mx-auto max-w-6xl">
           <SectionHeading
             id="skills-heading"
@@ -830,17 +994,6 @@ export default function ProfessionalPortfolio() {
           </div>
         </div>
 
-        {/* Stack marquee (decorative) */}
-        <div className="mt-20 relative flex overflow-x-hidden border-y border-slate-200 dark:border-slate-800/60 py-8 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]" aria-hidden="true">
-          <div className="animate-marquee flex whitespace-nowrap gap-16">
-            {[...DATA.skills, ...DATA.skills, ...DATA.skills].map((skill, i) => (
-              <div key={i} className="flex items-center gap-3 text-xl font-semibold text-slate-400 dark:text-slate-500">
-                <skill.icon className="h-6 w-6" />
-                {skill.name}
-              </div>
-            ))}
-          </div>
-        </div>
       </section>
 
       {/* SERVICES SECTION */}
@@ -869,14 +1022,32 @@ export default function ProfessionalPortfolio() {
       </section>
 
       {/* JOURNEY SECTION */}
-      <section id="career" aria-labelledby="career-heading" className="scroll-mt-8 py-28 px-6">
+      <section id="career" aria-labelledby="career-heading" className="scroll-mt-20 py-28 px-6">
         <div className="container mx-auto max-w-5xl">
           <SectionHeading id="career-heading" eyebrow="Journey" title="Experience, education & certifications" />
 
-          <div className="space-y-20">
-            {/* Work Experience Block */}
+          <Tabs defaultValue="experience">
+            <TabsList aria-label="Journey" className="h-auto flex flex-wrap justify-start gap-1 rounded-2xl bg-slate-100 p-1.5 dark:bg-slate-900">
+              {[
+                { value: "experience", label: "Experience", icon: Briefcase },
+                { value: "education", label: "Education", icon: GraduationCap },
+                { value: "certifications", label: "Certifications", icon: Award },
+                { value: "achievements", label: "Achievements", icon: Trophy },
+                { value: "hobbies", label: "Beyond code", icon: Heart },
+              ].map((t) => (
+                <TabsTrigger
+                  key={t.value}
+                  value={t.value}
+                  className="gap-2 rounded-xl px-4 py-2 text-slate-600 dark:text-slate-400 data-[state=active]:bg-white data-[state=active]:text-slate-900 dark:data-[state=active]:bg-slate-800 dark:data-[state=active]:text-white"
+                >
+                  <t.icon className="h-4 w-4" aria-hidden="true" /> {t.label}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+
+            <TabsContent value="experience" className="mt-10">
             <div>
-              <h3 className="text-2xl font-bold mb-8 flex items-center gap-3">
+              <h3 className="sr-only">
                 <Briefcase className="h-6 w-6 text-indigo-500" aria-hidden="true" />
                 Work Experience
               </h3>
@@ -916,10 +1087,11 @@ export default function ProfessionalPortfolio() {
                 ))}
               </ol>
             </div>
+            </TabsContent>
 
-            {/* Education Block */}
+            <TabsContent value="education" className="mt-10">
             <div>
-              <h3 className="text-2xl font-bold mb-8 flex items-center gap-3">
+              <h3 className="sr-only">
                 <GraduationCap className="h-6 w-6 text-indigo-500" aria-hidden="true" />
                 Education History
               </h3>
@@ -962,10 +1134,11 @@ export default function ProfessionalPortfolio() {
                 ))}
               </ol>
             </div>
+            </TabsContent>
 
-            {/* Certifications Block */}
+            <TabsContent value="certifications" className="mt-10">
             <div>
-              <h3 className="text-2xl font-bold mb-8 flex items-center gap-3">
+              <h3 className="sr-only">
                 <Award className="h-6 w-6 text-indigo-500" aria-hidden="true" />
                 Certifications
               </h3>
@@ -1052,10 +1225,11 @@ export default function ProfessionalPortfolio() {
                 })}
               </div>
             </div>
+            </TabsContent>
 
-            {/* Achievements Block */}
+            <TabsContent value="achievements" className="mt-10">
             <div>
-              <h3 className="text-2xl font-bold mb-8 flex items-center gap-3">
+              <h3 className="sr-only">
                 <Trophy className="h-6 w-6 text-indigo-500" aria-hidden="true" />
                 Achievements
               </h3>
@@ -1079,14 +1253,10 @@ export default function ProfessionalPortfolio() {
                 ))}
               </ul>
             </div>
-          </div>
-        </div>
-      </section>
+            </TabsContent>
 
-      {/* HOBBIES SECTION */}
-      <section aria-labelledby="hobbies-heading" className="py-24 px-6 bg-white dark:bg-[#050a18] border-y border-slate-200 dark:border-slate-800/60">
-        <div className="container mx-auto max-w-5xl">
-          <SectionHeading id="hobbies-heading" eyebrow="Beyond code" title="Hobbies & Interests" />
+            <TabsContent value="hobbies" className="mt-10">
+              <h3 className="sr-only">Hobbies & interests</h3>
           <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {DATA.hobbies.map((hobby) => (
               <li
@@ -1098,6 +1268,8 @@ export default function ProfessionalPortfolio() {
               </li>
             ))}
           </ul>
+            </TabsContent>
+          </Tabs>
         </div>
       </section>
 
@@ -1106,21 +1278,23 @@ export default function ProfessionalPortfolio() {
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:40px_40px]" aria-hidden="true" />
 
         <div className="container mx-auto max-w-6xl relative z-10">
+          <div className="grid gap-12 lg:grid-cols-2 items-start">
+          <div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="text-center mb-14"
+            className="mb-10"
           >
-            <h2 id="contact-heading" className="text-4xl md:text-6xl font-black mb-4">Let&apos;s Connect</h2>
-            <p className="text-lg md:text-xl text-indigo-100/90 max-w-2xl mx-auto">
+            <h2 id="contact-heading" className="text-4xl md:text-5xl font-black mb-4">Let&apos;s Connect</h2>
+            <p className="text-lg md:text-xl text-indigo-100/90 max-w-xl">
               Hiring, collaborating, or interested in SriVoraTech? Get in touch.
             </p>
           </motion.div>
 
           {/* Contact Cards Grid */}
-          <ul className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-14">
+          <ul className="grid sm:grid-cols-2 gap-4 mb-10">
             {[
               { href: `mailto:${DATA.contact.email}`, icon: Mail, title: "Email", value: DATA.contact.email, external: false },
               { href: `tel:+91${DATA.personalDetails.phone}`, icon: Phone, title: "Phone", value: DATA.personalDetails.phone, external: false },
@@ -1144,12 +1318,8 @@ export default function ProfessionalPortfolio() {
             ))}
           </ul>
 
-          <div className="max-w-3xl mx-auto mb-16">
-            <ContactForm />
-          </div>
-
           {/* Social Links */}
-          <ul className="flex justify-center gap-3 mb-12">
+          <ul className="flex gap-3" aria-label="Profiles">
             {[
               { icon: Github, href: DATA.contact.github, label: "GitHub" },
               { icon: Linkedin, href: DATA.contact.linkedin, label: "LinkedIn" },
@@ -1169,8 +1339,11 @@ export default function ProfessionalPortfolio() {
               </li>
             ))}
           </ul>
+          </div>
+          <ContactForm />
+          </div>
 
-          <footer className="text-center pt-8 border-t border-white/10">
+          <footer className="mt-20 text-center pt-8 border-t border-white/10">
             <p className="text-indigo-100/90 text-sm">
               © {new Date().getFullYear()} <span className="font-bold text-white">{DATA.name}</span> · Founder & CEO,{" "}
               <a href={srivoratech.url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-white">
@@ -1352,8 +1525,8 @@ export default function ProfessionalPortfolio() {
         )}
       </AnimatePresence>
 
-      {/* Floating actions (stacked above the dock on small screens) */}
-      <div className="fixed right-4 sm:right-6 bottom-20 sm:bottom-24 lg:bottom-6 z-[90] flex flex-col items-end gap-3">
+      {/* Floating actions */}
+      <div className="fixed right-4 sm:right-6 bottom-4 sm:bottom-6 z-[40] flex flex-col items-end gap-3">
         <AnimatePresence>
           {showScrollTop && (
             <motion.button
