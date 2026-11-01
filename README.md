@@ -24,11 +24,13 @@ npm run build
 
 ### Skills & Learning tracker
 
-Edit `content/learning.ts`. Each skill has a `status`:
+Edit `content/learning.ts` — it is the only file you need to touch.
 
-- `"completed"` → **Completed**
-- `"in-progress"` → **In progress**
-- `"learning"` → **Learning**
-
-Progress bars only appear when you set `progress` to a real percentage (0–100).
-Set `currentFocus` to `""` or `nextUp` to `[]` to hide those blocks.
+- **Status:** set each skill's `status` to `"completed"`, `"in-progress"` or `"learning"`. The skill moves to the matching group (Completed / In progress / Learning) and the learning path automatically.
+- **Add a skill:** append `{ name: "Kubernetes", status: "learning", icon: "cloud" }` to `learningSkills`. List order = learning-path order.
+- **Note:** optional `note` adds one short line under the skill (e.g. `"Just started"`).
+- **Icon:** optional `icon` — `git`, `docker`, `devops`, `mlops`, `cloud` or `code`.
+- **Progress bar:** only shown if you set `progress` to a real percentage (0–100). Leave it out otherwise.
+- **Current focus:** `currentFocus` (set to `""` to hide). It also appears in the hero card.
+- **Next up:** `nextUp` list (use `[]` to hide).
+- **Last updated:** `lastUpdated` as `"YYYY-MM-DD"`; shown as e.g. "1 November 2026".

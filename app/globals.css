@@ -111,6 +111,24 @@ html {
   animation-delay: 4s;
 }
 
+@keyframes ping-slow {
+  0% { transform: scale(1); opacity: 0.7; }
+  80%, 100% { transform: scale(1.45); opacity: 0; }
+}
+.animate-ping-slow {
+  animation: ping-slow 2.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes orbit {
+  to { transform: rotate(360deg); }
+}
+.animate-orbit {
+  animation: orbit 60s linear infinite;
+}
+.animate-orbit-reverse {
+  animation: orbit 90s linear infinite reverse;
+}
+
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -121,7 +139,7 @@ html {
 
 
 :focus-visible {
-  outline: 2px solid #6366f1;
+  outline: 2px solid #0d9488;
   outline-offset: 3px;
   border-radius: 6px;
 }
@@ -138,7 +156,10 @@ html {
     transition-duration: 0.01ms !important;
   }
   .animate-blob,
-  .animate-marquee {
+  .animate-marquee,
+  .animate-ping-slow,
+  .animate-orbit,
+  .animate-orbit-reverse {
     animation: none !important;
   }
 }
