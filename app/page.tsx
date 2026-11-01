@@ -365,6 +365,7 @@ const SiteHeader = () => {
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("home");
   useEffect(() => setMounted(true), []);
@@ -396,7 +397,10 @@ const SiteHeader = () => {
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") {
+        setOpen(false);
+        menuButtonRef.current?.focus();
+      }
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
@@ -458,6 +462,7 @@ const SiteHeader = () => {
             <span className="sr-only">(PDF, opens in a new tab)</span>
           </a>
           <button
+            ref={menuButtonRef}
             type="button"
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
@@ -1238,9 +1243,15 @@ export default function ProfessionalPortfolio() {
                           className="absolute inset-0 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-hidden"
                           style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
                           aria-hidden={!flipped}
+                          onKeyDown={(e) => {
+                            if (e.key === "Tab" && flipped) {
+                              e.preventDefault();
+                              document.getElementById(`cert-close-${i}`)?.focus();
+                            }
+                          }}
                         >
                           {flipped && (
-                            <iframe src={cert.image} className="w-full h-full" title={`${cert.name} certificate`} loading="lazy" />
+                            <iframe src={cert.image} className="w-full h-full" title={`${cert.name} certificate`} loading="lazy" tabIndex={-1} />
                           )}
                           <button
                             type="button"
