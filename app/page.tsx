@@ -320,7 +320,29 @@ function useDialog(open: boolean, onClose: () => void) {
     const previous = document.activeElement as HTMLElement | null;
     closeRef.current?.focus();
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
+      if (e.key !== "Tab") return;
+      const dialog = closeRef.current?.closest<HTMLElement>('[role="dialog"]');
+      if (!dialog) return;
+      const focusable = Array.from(
+        dialog.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), iframe, [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter((el) => el.offsetParent !== null || el === document.activeElement);
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement as HTMLElement | null;
+      if (e.shiftKey && (active === first || !dialog.contains(active))) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && (active === last || !dialog.contains(active))) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     document.addEventListener("keydown", onKey);
     const overflow = document.body.style.overflow;
@@ -449,6 +471,18 @@ export default function ProfessionalPortfolio() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showPersonalInfo, setShowPersonalInfo] = useState(false);
   const [flippedCert, setFlippedCert] = useState<number | null>(null);
+  useEffect(() => {
+    if (flippedCert === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        const i = flippedCert;
+        setFlippedCert(null);
+        setTimeout(() => document.getElementById(`cert-preview-${i}`)?.focus(), 50);
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [flippedCert]);
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
 
   const closeProject = useCallback(() => setSelectedProject(null), []);
@@ -964,7 +998,11 @@ export default function ProfessionalPortfolio() {
                             <div className="mt-auto flex flex-wrap gap-2 pt-4">
                               <button
                                 type="button"
-                                onClick={() => setFlippedCert(i)}
+                                id={`cert-preview-${i}`}
+                                onClick={() => {
+                                  setFlippedCert(i);
+                                  setTimeout(() => document.getElementById(`cert-close-${i}`)?.focus(), 50);
+                                }}
                                 tabIndex={flipped ? -1 : 0}
                                 className="text-sm font-semibold text-indigo-700 dark:text-indigo-300 hover:underline underline-offset-2"
                               >
@@ -995,7 +1033,11 @@ export default function ProfessionalPortfolio() {
                           )}
                           <button
                             type="button"
-                            onClick={() => setFlippedCert(null)}
+                            id={`cert-close-${i}`}
+                            onClick={() => {
+                              setFlippedCert(null);
+                              setTimeout(() => document.getElementById(`cert-preview-${i}`)?.focus(), 50);
+                            }}
                             tabIndex={flipped ? 0 : -1}
                             aria-label={`Close ${cert.name} preview`}
                             className="absolute top-2 right-2 p-2 rounded-full bg-black/60 hover:bg-black/80 text-white transition-colors z-10"
