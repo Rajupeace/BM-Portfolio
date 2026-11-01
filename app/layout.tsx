@@ -3,11 +3,11 @@ import { Outfit, Space_Grotesk } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from 'sonner'
+import { SITE_URL } from '@/lib/site'
 
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' })
 const display = Space_Grotesk({ subsets: ['latin'], variable: '--font-display' })
 
-const SITE_URL = 'https://bm-portfolio-xi.vercel.app'
 const TITLE = 'Badisa Srikanth | Full Stack Developer & Founder of SriVoraTech'
 const DESCRIPTION =
   'Portfolio of Badisa Srikanth (Srikanth Badisa), a Full Stack Developer and the Founder & CEO of SriVoraTech. Projects, skills & learning tracker, resume and contact details.'

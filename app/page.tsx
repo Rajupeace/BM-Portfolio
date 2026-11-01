@@ -177,7 +177,7 @@ const DATA = {
       ],
       tags: ["Next.js", "Tailwind", "Framer Motion"],
       github: "https://github.com/Rajupeace/BM-Portfolio",
-      live: "https://bm-portfolio-xi.vercel.app",
+      live: "https://srikanth.portfolio.srivoratech.in",
       image: "/bm-portfolio.png",
     },
   ],

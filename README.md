@@ -2,7 +2,7 @@
 
 Personal portfolio of **Badisa Srikanth** — Full Stack Developer and Founder & CEO of [SriVoraTech](https://www.srivoratech.in/).
 
-Live: https://bm-portfolio-xi.vercel.app
+Live: https://srikanth.portfolio.srivoratech.in (also served at https://bm-portfolio-xi.vercel.app)
 
 ## Run locally
 
@@ -20,6 +20,7 @@ npm run build
 | SriVoraTech details and products | `content/srivoratech.ts` |
 | Bio, projects, education, certifications, achievements, contact | `DATA` object at the top of `app/page.tsx` |
 | Page title / SEO description | `app/layout.tsx` |
+| Site URL (canonical, Open Graph, sitemap, robots) | `lib/site.ts` |
 | Resume PDF | `public/Srikanthsathya_Resume.pdf` |
 
 ### Skills & Learning tracker
