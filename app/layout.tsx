@@ -1,22 +1,20 @@
 import type { Metadata, Viewport } from 'next'
-import { Outfit, Space_Grotesk } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
-import { Toaster } from 'sonner'
 import { SITE_URL } from '@/lib/site'
 
-const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' })
-const display = Space_Grotesk({ subsets: ['latin'], variable: '--font-display' })
+const inter = Inter({ subsets: ['latin'], variable: '--font-sans', display: 'swap' })
 
-const TITLE = 'Badisa Srikanth | Full Stack Developer & Founder of SriVoraTech'
+const TITLE = 'Badisa Srikanth | AI Engineer, Full Stack Developer & Founder of SriVoraTech'
 const DESCRIPTION =
-  'Portfolio of Badisa Srikanth (Srikanth Badisa), a Full Stack Developer and the Founder & CEO of SriVoraTech. Projects, skills & learning tracker, resume and contact details.'
+  'Portfolio of Badisa Srikanth (Srikanth Badisa): AI Engineer, Full Stack Developer and Founder & CEO of SriVoraTech. Projects, AI work, DevOps & MLOps journey, resume and contact.'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: TITLE,
+  title: { default: TITLE, template: '%s | Badisa Srikanth' },
   description: DESCRIPTION,
-  keywords: ['Badisa Srikanth', 'Srikanth Badisa', 'SriVoraTech', 'Founder', 'Full Stack Developer', 'React', 'Next.js', 'Node.js', 'Python', 'Portfolio'],
+  keywords: ['Badisa Srikanth', 'Srikanth Badisa', 'SriVoraTech', 'Founder', 'AI Engineer', 'Full Stack Developer', 'React', 'Next.js', 'Node.js', 'Python', 'Portfolio'],
   authors: [{ name: 'Badisa Srikanth', url: SITE_URL }],
   creator: 'Badisa Srikanth',
   alternates: { canonical: '/' },
@@ -39,8 +37,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#f8fafc' },
-    { media: '(prefers-color-scheme: dark)', color: '#04080f' },
+    { media: '(prefers-color-scheme: light)', color: '#fafafa' },
+    { media: '(prefers-color-scheme: dark)', color: '#0b0b0d' },
   ],
 }
 
@@ -50,7 +48,7 @@ const personJsonLd = {
   name: 'Badisa Srikanth',
   alternateName: 'Srikanth Badisa',
   url: SITE_URL,
-  jobTitle: 'Full Stack Developer; Founder & CEO, SriVoraTech',
+  jobTitle: 'AI Engineer; Full Stack Developer; Founder & CEO, SriVoraTech',
   worksFor: { '@type': 'Organization', name: 'SriVoraTech', url: 'https://www.srivoratech.in/' },
   sameAs: ['https://github.com/Rajupeace', 'https://www.linkedin.com/in/srikanth-b-1b6b452a5/', 'https://www.srivoratech.in/'],
 }
@@ -62,7 +60,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${outfit.variable} ${display.variable} font-sans antialiased`}>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+      </head>
+      <body className={`${inter.variable} font-sans antialiased`}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
@@ -71,10 +72,8 @@ export default function RootLayout({
           attribute="class"
           defaultTheme="system"
           enableSystem
-          disableTransitionOnChange
         >
           {children}
-          <Toaster position="bottom-right" theme="system" />
         </ThemeProvider>
       </body>
     </html>

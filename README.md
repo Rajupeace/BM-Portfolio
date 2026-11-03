@@ -18,7 +18,9 @@ npm run build
 | --- | --- |
 | Skills & Learning tracker (statuses, current focus, next up) | `content/learning.ts` |
 | SriVoraTech details and products | `content/srivoratech.ts` |
-| Bio, projects, education, certifications, achievements, contact | `DATA` object at the top of `app/page.tsx` |
+| Projects and case-study pages (`/projects/[slug]`) | `content/projects.ts` |
+| Bio, hero text, availability, skills, experience, education, certifications, achievements, contact | `content/profile.ts` |
+| DevOps & MLOps journey steps | `content/devops-journey.ts` |
 | Page title / SEO description | `app/layout.tsx` |
 | Site URL (canonical, Open Graph, sitemap, robots) | `lib/site.ts` |
 | Resume PDF | `public/Srikanthsathya_Resume.pdf` |
