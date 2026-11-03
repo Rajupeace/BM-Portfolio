@@ -3,7 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, CircleAlert, ExternalLink, Github } from "lucide-react";
-import { getProject, projects } from "@/content/projects";
+import { getProject, projectSeo, projects, statusLabels } from "@/content/projects";
+import { profile } from "@/content/profile";
+import { SITE_URL } from "@/lib/site";
 import { SiteHeader } from "@/components/site/site-header";
 import { SiteFooter } from "@/components/site/footer";
 import { StatusBadge } from "@/components/site/project-card";
@@ -19,17 +21,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) return {};
-  const description = `${project.title}: ${project.tagline}`;
+  const seo = projectSeo[project.slug] ?? { title: `${project.title} | Badisa Srikanth`, description: `${project.title}: ${project.tagline}` };
+  const images = [{ url: project.image ?? "/og.png", alt: project.imageAlt ?? seo.title }];
   return {
-    title: project.title,
-    description,
+    title: { absolute: seo.title },
+    description: seo.description,
     alternates: { canonical: `/projects/${project.slug}` },
-    openGraph: {
-      title: `${project.title} | Badisa Srikanth`,
-      description,
-      url: `/projects/${project.slug}`,
-      images: project.image ? [{ url: project.image }] : undefined,
-    },
+    openGraph: { type: "article", title: seo.title, description: seo.description, url: `/projects/${project.slug}`, siteName: "Badisa Srikanth", images },
+    twitter: { card: "summary_large_image", title: seo.title, description: seo.description, images: images.map((i) => i.url) },
   };
 }
 
@@ -61,12 +60,38 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   if (!project) notFound();
   const index = projects.indexOf(project);
   const next = projects[(index + 1) % projects.length];
+  const url = `${SITE_URL}/projects/${project.slug}`;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+          { "@type": "ListItem", position: 2, name: "Projects", item: `${SITE_URL}/#work` },
+          { "@type": "ListItem", position: 3, name: project.title, item: url },
+        ],
+      },
+      {
+        "@type": "CreativeWork",
+        name: project.title,
+        url,
+        description: projectSeo[project.slug]?.description ?? project.tagline,
+        creativeWorkStatus: statusLabels[project.status],
+        keywords: project.tech.join(", "),
+        author: { "@type": "Person", "@id": `${SITE_URL}/#person`, name: profile.name },
+        ...(project.image ? { image: `${SITE_URL}${project.image}` } : {}),
+        ...(project.github || project.live ? { sameAs: [project.github, project.live].filter(Boolean) } : {}),
+      },
+    ],
+  };
 
   return (
     <>
       <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:shadow">
         Skip to content
       </a>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <SiteHeader />
       <main id="main" className="container-page pb-20 pt-28">
         <Link href="/#work" className="btn-link">
@@ -173,7 +198,29 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           </aside>
         </div>
 
-        <nav aria-label="More projects" className="mt-12 border-t border-zinc-200 pt-8 dark:border-zinc-800">
+        <nav aria-label="Related pages" className="mt-12 flex flex-wrap gap-x-6 gap-y-3 border-t border-zinc-200 pt-8 text-sm dark:border-zinc-800">
+          {project.category.includes("AI") && (
+            <Link href="/#ai-lab" className="btn-link">
+              AI & Research Lab
+            </Link>
+          )}
+          {project.slug === "srivoratech" && (
+            <Link href="/#startup" className="btn-link">
+              SriVoraTech founder details
+            </Link>
+          )}
+          <Link href="/#work" className="btn-link">
+            All projects by {profile.name}
+          </Link>
+          <a href={profile.resume} className="btn-link">
+            Resume (PDF)
+          </a>
+          <Link href="/#contact" className="btn-link">
+            Contact me about {project.title}
+          </Link>
+        </nav>
+
+        <nav aria-label="More projects" className="mt-8 border-t border-zinc-200 pt-8 dark:border-zinc-800">
           <Link href={`/projects/${next.slug}`} className="card card-hover flex items-center justify-between gap-4 p-5">
             <span>
               <span className="block text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Next project</span>
