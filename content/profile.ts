@@ -11,7 +11,7 @@ export const profile = {
   titles: ["AI Engineer", "Full Stack Developer", "Founder & CEO at SriVoraTech"],
   headline: "Building Intelligent AI Systems & Scalable Full Stack Applications.",
   intro:
-    "I'm a Computer Science engineer who builds full-stack web apps and AI-powered tools, and the Founder & CEO of SriVoraTech.",
+    "I'm Badisa Srikanth (also written Srikanth Badisa), a Computer Science engineer who builds full-stack web apps and AI-powered tools, and the Founder & CEO of SriVoraTech.",
   about: [
     "I'm a final-year B.Tech Computer Science student at Vignan University. I build full-stack web applications and AI-powered tools, from LLM assistants running on local models to role-based university platforms.",
     "I founded SriVoraTech in 2024 with my co-founders. It is an IT services startup in Hyderabad, where I lead product strategy, technology and business development.",
