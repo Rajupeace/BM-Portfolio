@@ -36,6 +36,17 @@ import { projects } from "@/content/projects";
 import { devopsSteps, journeyRepo } from "@/content/devops-journey";
 import { currentFocus } from "@/content/learning";
 import { srivoratech } from "@/content/srivoratech";
+import { SITE_URL } from "@/lib/site";
+
+const profilePageJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "@id": `${SITE_URL}/#profile`,
+  url: SITE_URL,
+  name: "Badisa Srikanth | AI Engineer & Full Stack Developer",
+  isPartOf: { "@id": `${SITE_URL}/#website` },
+  mainEntity: { "@id": `${SITE_URL}/#person` },
+};
 
 const services = [
   { title: "Web applications", description: "Scalable, responsive web applications built with Next.js and React." },
@@ -180,6 +191,7 @@ export default function Portfolio() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(profilePageJsonLd) }} />
       <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:text-zinc-900 focus:shadow">
         Skip to content
       </a>

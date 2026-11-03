@@ -245,6 +245,38 @@ export const projects: Project[] = [
 
 export const projectCategories: ProjectCategory[] = ["AI", "Full Stack", "DevOps & MLOps", "Startup"];
 
+/** Search titles and descriptions per project page. Keep each one unique and accurate. */
+export const projectSeo: Record<string, { title: string; description: string }> = {
+  careeros: {
+    title: "CareerOS | AI Career Intelligence Project by Badisa Srikanth",
+    description: "CareerOS is an in-progress AI career intelligence project by Badisa Srikanth: resume analysis, job description matching and skill gap analysis with Qwen3, Ollama, FastAPI and RAG.",
+  },
+  "roadsense-ai": {
+    title: "RoadSense AI | Road Damage Detection Research by Badisa Srikanth",
+    description: "RoadSense AI is a research proposal by Badisa Srikanth to detect potholes, cracks, waterlogging and damaged manholes on Indian roads, with severity scoring and corrective RAG.",
+  },
+  "vu-universe-360": {
+    title: "Vu UniVerse360 | Smart Campus Management Project",
+    description: "Vu UniVerse360 is a smart campus management platform with student, faculty and admin portals, built by Badisa Srikanth with React, NestJS and MongoDB.",
+  },
+  "vu-ai-agent": {
+    title: "VU AI Agent | University AI Assistant Project",
+    description: "VU AI Agent is a university AI assistant by Badisa Srikanth, built with Python, FastAPI, LangChain and Ollama to answer campus questions.",
+  },
+  "student-result-prediction": {
+    title: "Student Result Prediction | MLOps Project by Badisa Srikanth",
+    description: "Student Result Prediction is an MLOps practice project by Badisa Srikanth: a machine learning model with a CI quality gate, a Docker image and a live API on Render.",
+  },
+  srivoratech: {
+    title: "SriVoraTech | Software Development & AI Projects",
+    description: "SriVoraTech is an IT services startup in Hyderabad, founded in 2024 by Badisa Srikanth, building custom software, AI solutions and web applications.",
+  },
+  "bm-portfolio": {
+    title: "BM Portfolio | Next.js Portfolio Website by Badisa Srikanth",
+    description: "How Badisa Srikanth's portfolio is built: Next.js App Router, React, TypeScript and Tailwind CSS, with project case studies, a learning tracker and light and dark themes.",
+  },
+};
+
 export function getProject(slug: string) {
   return projects.find((p) => p.slug === slug);
 }
