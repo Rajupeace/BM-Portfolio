@@ -44,6 +44,18 @@ export function ResearchSection({ caseStudyLink = true }: { caseStudyLink?: bool
                   ))}
                 </ul>
               )}
+              {s.references && (
+                <ul className="mt-2 space-y-1.5">
+                  {s.references.map((r) => (
+                    <li key={r.url}>
+                      <a href={r.url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-zinc-950 dark:hover:text-white">
+                        {r.title}
+                      </a>{" "}
+                      ({r.authors}, {r.year})<span className="sr-only"> (opens in a new tab)</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
               {s.items && (
                 <div className="mt-2">
                   <ArchitectureDiagram steps={s.items} label={`${s.label} diagram`} />

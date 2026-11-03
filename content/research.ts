@@ -14,6 +14,7 @@ export interface ResearchStage {
   text?: string;
   items?: string[];
   points?: string[];
+  references?: { title: string; authors: string; year: number; url: string }[];
 }
 
 export const research = {
@@ -38,7 +39,17 @@ export const research = {
       status: "done",
       text: "Road damage in India is reported slowly and repaired without a clear priority order, which leaves dangerous potholes, waterlogged stretches and open manholes unattended.",
     },
-    { label: "Literature survey", status: "not-started" },
+    {
+      label: "Literature survey",
+      status: "not-started",
+      text: "The survey is not written yet. Starting references to review:",
+      references: [
+        { title: "Road Damage Detection Using Deep Neural Networks with Images Captured Through a Smartphone", authors: "Maeda et al.", year: 2018, url: "https://arxiv.org/abs/1801.09454" },
+        { title: "RDD2022: A multi-national image dataset for automatic Road Damage Detection", authors: "Arya et al.", year: 2022, url: "https://arxiv.org/abs/2209.08538" },
+        { title: "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks", authors: "Lewis et al.", year: 2020, url: "https://arxiv.org/abs/2005.11401" },
+        { title: "Corrective Retrieval Augmented Generation", authors: "Yan et al.", year: 2024, url: "https://arxiv.org/abs/2401.15884" },
+      ],
+    },
     { label: "Existing system limitations", status: "not-started" },
     { label: "Research gap", status: "not-started" },
     {
@@ -63,15 +74,15 @@ export const research = {
       ],
     },
     {
-      label: "Dataset information",
+      label: "Dataset collection plan",
       status: "proposed",
       text: "Planned classes: potholes, cracks, waterlogging and damaged manholes. The data source, dataset size and per-class counts will be published once the dataset is collected.",
     },
     { label: "Research methodology", status: "not-started" },
-    { label: "Experimental plan", status: "not-started" },
+    { label: "Model training methodology", status: "not-started" },
     { label: "Evaluation metrics", status: "not-started" },
     { label: "Results", status: "not-started", text: "No experiments have been run, so there are no results yet." },
     { label: "Limitations", status: "not-started" },
-    { label: "Conclusion and future work", status: "not-started" },
+    { label: "Future work", status: "not-started" },
   ] as ResearchStage[],
 };
