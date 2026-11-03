@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   alternates: { canonical: '/' },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 } },
   verification: {
-    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || undefined,
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || 'o_k71Rv0ENISt-5lg17cvyZlbNQTeFmf7TmcPAhr2b8',
     other: process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION ? { 'msvalidate.01': process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION } : undefined,
   },
   openGraph: {
