@@ -105,7 +105,7 @@ export const personalDetails = {
   phone: "9182030946",
   email: "rajubhaibhai576@gmail.com",
   dob: "09 / 07 / 2004",
-  address: "Madhira: Khammam / Ts",
+  address: "Madhira, Khammam, Telangana",
   father: "Venkateshwarlu",
   mother: "Adi Laxmi",
 };

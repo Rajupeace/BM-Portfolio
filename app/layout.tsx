@@ -56,6 +56,7 @@ const person = {
   alumniOf: { '@type': 'CollegeOrUniversity', name: 'Vignan University' },
   jobTitle: 'AI Engineer and Full Stack Developer',
   description: 'Founder & CEO of SriVoraTech',
+  email: 'mailto:rajubhaibhai576@gmail.com',
   worksFor: { '@id': 'https://www.srivoratech.in/#organization' },
   sameAs: [
     'https://github.com/Rajupeace',
@@ -76,6 +77,7 @@ const personJsonLd = {
       name: 'SriVoraTech',
       url: 'https://www.srivoratech.in/',
       foundingDate: '2024',
+      address: { '@type': 'PostalAddress', addressLocality: 'Hyderabad', addressRegion: 'Telangana', addressCountry: 'IN' },
       founder: { '@id': `${SITE_URL}/#person` },
       sameAs: ['https://github.com/Rajupeace/SriVoraTech'],
     },

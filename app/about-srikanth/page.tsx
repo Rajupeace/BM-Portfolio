@@ -26,7 +26,7 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "AboutPage",
+      "@type": "ProfilePage",
       "@id": `${SITE_URL}${PATH}#page`,
       url: `${SITE_URL}${PATH}`,
       name: TITLE,
