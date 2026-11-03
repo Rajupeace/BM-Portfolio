@@ -99,7 +99,7 @@ export function StartupSection() {
                 key={p.name}
                 className="group flex flex-col rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/40 p-5 transition-colors hover:border-brand-400 dark:hover:border-brand-500/60"
               >
-                <div className="flex items-start justify-between gap-3">
+                <div className="flex flex-wrap items-start justify-between gap-x-3 gap-y-2">
                   <p className="text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-400">{p.category}</p>
                   {p.status === "live-demo" ? (
                     <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-emerald-200 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10 px-2 py-0.5 text-xs font-semibold text-emerald-700 dark:text-emerald-300">
@@ -107,7 +107,7 @@ export function StartupSection() {
                     </span>
                   ) : (
                     <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-zinc-200 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 text-xs font-semibold text-zinc-700 dark:text-zinc-300">
-                      <Clock className="h-3 w-3" aria-hidden="true" /> Upcoming{p.statusDetail ? ` · ${p.statusDetail}` : ""}
+                      <Clock className="h-3 w-3" aria-hidden="true" /> Coming soon{p.statusDetail ? ` · ${p.statusDetail}` : ""}
                     </span>
                   )}
                 </div>

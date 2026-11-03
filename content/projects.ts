@@ -25,6 +25,8 @@ export interface Project {
   architecture?: string[];
   contribution?: string;
   implemented?: string[];
+  /** A closely related project and how this one differs from it. */
+  related?: { slug: string; note: string };
   /** Features being built now, not yet verified as working. */
   inProgress?: string[];
   planned?: string[];
@@ -42,7 +44,7 @@ export const statusLabels: Record<ProjectStatus, string> = {
   live: "Live demo",
   source: "Source only",
   "in-progress": "In progress",
-  research: "Research",
+  research: "Research proposal",
 };
 
 export const projects: Project[] = [
@@ -79,6 +81,13 @@ export const projects: Project[] = [
     statusNote: "Research proposal. No dataset, experiments or results are published yet, so every feature is listed as proposed.",
     problem: "Damaged roads in India (potholes, cracks, waterlogging and damaged manholes) are reported slowly and repaired without a clear priority order.",
     solution: "Detect road damage from images, estimate severity and risk, and prioritise repairs, with a corrective RAG layer for grounded explanations.",
+    architecture: [
+      "Image input from road photos",
+      "Damage detection: potholes, cracks, waterlogging, damaged manholes",
+      "Severity and risk assessment for each detection",
+      "Corrective RAG: retrieve guidance, check its relevance, re-retrieve when it is weak",
+      "Prioritised damage report",
+    ],
     planned: [
       "Pothole detection",
       "Road crack detection",
@@ -95,6 +104,10 @@ export const projects: Project[] = [
     slug: "vu-universe-360",
     title: "Vu UniVerse360",
     tagline: "Campus management platform with student, faculty and admin portals. Repository: VUUniverse-360.",
+    related: {
+      slug: "vu-ai-agent",
+      note: "Vu UniVerse360 is the full campus platform (portals, attendance, records). The VU AI Agent is a separate chatbot project; Vu UniVerse360 includes it as its AI module.",
+    },
     category: ["Full Stack"],
     status: "live",
     problem: "Institutions juggle separate tools for students, faculty and administration, which scatters academic and operational data.",
@@ -125,6 +138,10 @@ export const projects: Project[] = [
     slug: "vu-ai-agent",
     title: "VU AI Agent",
     tagline: "Standalone AI assistant for university questions; Vu UniVerse360 integrates it as its AI module.",
+    related: {
+      slug: "vu-universe-360",
+      note: "This is only the AI assistant, built and run on its own. Vu UniVerse360 is the separate campus management platform that uses it.",
+    },
     category: ["AI"],
     status: "source",
     statusNote: "The earlier demo at vu-ai-agent.vercel.app no longer exists. The source code is on GitHub.",

@@ -7,6 +7,7 @@ import { getProject, projects } from "@/content/projects";
 import { SiteHeader } from "@/components/site/site-header";
 import { SiteFooter } from "@/components/site/footer";
 import { StatusBadge } from "@/components/site/project-card";
+import { ArchitectureDiagram } from "@/components/site/architecture-diagram";
 
 export const dynamicParams = false;
 
@@ -108,18 +109,34 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
         <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_280px]">
           <div>
+            {project.related && getProject(project.related.slug) && (
+              <Block title={`How it differs from ${getProject(project.related.slug)!.title}`}>
+                {project.related.note}{" "}
+                <Link href={`/projects/${project.related.slug}`} className="btn-link">
+                  View {getProject(project.related.slug)!.title} <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+                </Link>
+              </Block>
+            )}
             {project.problem && <Block title="Problem">{project.problem}</Block>}
             {project.solution && <Block title="Solution">{project.solution}</Block>}
             {project.architecture && (
-              <Block title="Architecture">
-                <List items={project.architecture} />
+              <Block title={project.status === "research" || project.status === "in-progress" ? "Architecture (planned design)" : "Architecture"}>
+                <ArchitectureDiagram
+                  steps={project.architecture}
+                  label={`${project.title} architecture`}
+                  caption={project.status === "research" || project.status === "in-progress" ? "Design only. Components are not verified as built." : undefined}
+                />
               </Block>
             )}
             {project.contribution && <Block title="My contribution">{project.contribution}</Block>}
-            {project.implemented && (
+            {project.implemented ? (
               <Block title="Implemented">
                 <List items={project.implemented} />
               </Block>
+            ) : (
+              (project.status === "research" || project.status === "in-progress") && (
+                <Block title="Implemented">Nothing verified yet. Features move here once a public repository, demo or screenshots show them working.</Block>
+              )
             )}
             {project.inProgress && (
               <Block title="In progress (not verified yet)">
