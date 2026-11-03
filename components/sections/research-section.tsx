@@ -7,10 +7,10 @@ const STAGE: Record<ResearchStageStatus, { label: string; className: string }> =
   done: { label: "Written", className: "border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-900 dark:bg-emerald-950/50 dark:text-emerald-300" },
   "in-progress": { label: "In progress", className: "border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-900 dark:bg-amber-950/50 dark:text-amber-300" },
   proposed: { label: "Proposed", className: "border-brand-200 bg-brand-50 text-brand-800 dark:border-brand-900 dark:bg-brand-950/50 dark:text-brand-300" },
-  "not-started": { label: "Not published yet", className: "border-zinc-200 bg-zinc-50 text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400" },
+  "not-started": { label: "Not written yet", className: "border-zinc-200 bg-zinc-50 text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400" },
 };
 
-export function ResearchSection() {
+export function ResearchSection({ caseStudyLink = true }: { caseStudyLink?: boolean }) {
   return (
     <article className="reveal card p-5 sm:p-8" aria-labelledby="research-title">
       <div className="flex flex-wrap items-center gap-2">
@@ -37,19 +37,40 @@ export function ResearchSection() {
             </dt>
             <dd className="mt-1.5 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
               {s.text}
+              {s.points && (
+                <ul className="mt-2 list-disc space-y-1 pl-5">
+                  {s.points.map((pt) => (
+                    <li key={pt}>{pt}</li>
+                  ))}
+                </ul>
+              )}
+              {s.references && (
+                <ul className="mt-2 space-y-1.5">
+                  {s.references.map((r) => (
+                    <li key={r.url}>
+                      <a href={r.url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-zinc-950 dark:hover:text-white">
+                        {r.title}
+                      </a>{" "}
+                      ({r.authors}, {r.year})<span className="sr-only"> (opens in a new tab)</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
               {s.items && (
                 <div className="mt-2">
                   <ArchitectureDiagram steps={s.items} label={`${s.label} diagram`} />
                 </div>
               )}
-              {!s.text && !s.items && "Will be added once this stage is written."}
+              {!s.text && !s.items && !s.points && "Will be added once this stage is written."}
             </dd>
           </div>
         ))}
       </dl>
-      <Link href={`/projects/${research.projectSlug}`} className="btn-link mt-8">
-        RoadSense AI case study <ArrowRight className="h-4 w-4" aria-hidden="true" />
-      </Link>
+      {caseStudyLink && (
+        <Link href={`/projects/${research.projectSlug}`} className="btn-link mt-8">
+          RoadSense AI case study <ArrowRight className="h-4 w-4" aria-hidden="true" />
+        </Link>
+      )}
     </article>
   );
 }

@@ -26,7 +26,7 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "AboutPage",
+      "@type": "ProfilePage",
       "@id": `${SITE_URL}${PATH}#page`,
       url: `${SITE_URL}${PATH}`,
       name: TITLE,
@@ -62,7 +62,6 @@ export default function AboutSrikanth() {
   const fullStack = projects.filter((p) => p.category.includes("Full Stack") && !ai.includes(p));
   const profiles = [
     { label: "GitHub", href: profile.contact.github },
-    { label: "LinkedIn", href: profile.contact.linkedin },
     { label: "LeetCode", href: profile.contact.leetcode },
     { label: "HackerRank", href: profile.contact.hackerrank },
   ];

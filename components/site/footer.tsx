@@ -7,7 +7,6 @@ import { CurrentYear } from "./current-year";
 export function SiteFooter() {
   const links = [
     { label: "GitHub", href: profile.contact.github },
-    { label: "LinkedIn", href: profile.contact.linkedin },
     { label: "LeetCode", href: profile.contact.leetcode },
     { label: "HackerRank", href: profile.contact.hackerrank },
     { label: "SriVoraTech", href: srivoratech.url },

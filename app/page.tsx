@@ -7,7 +7,6 @@ import {
   Download,
   FileText,
   Github,
-  Linkedin,
   Mail,
   MapPin,
 } from "lucide-react";
@@ -134,11 +133,6 @@ function Hero() {
             <li>
               <a href={profile.contact.github} {...ext} className="icon-btn h-10 w-10" aria-label="GitHub (opens in a new tab)">
                 <Github className="h-4 w-4" aria-hidden="true" />
-              </a>
-            </li>
-            <li>
-              <a href={profile.contact.linkedin} {...ext} className="icon-btn h-10 w-10" aria-label="LinkedIn (opens in a new tab)">
-                <Linkedin className="h-4 w-4" aria-hidden="true" />
               </a>
             </li>
             <li>
@@ -407,10 +401,9 @@ export default function Portfolio() {
         </Section>
 
         <Section id="profiles" eyebrow="GitHub & coding profiles" title="Find my code and practice">
-          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[
               { name: "GitHub", handle: "Rajupeace", href: profile.contact.github, note: "Source code for my projects" },
-              { name: "LinkedIn", handle: "srikanth-b", href: profile.contact.linkedin, note: "Professional profile" },
               { name: "LeetCode", handle: "Srikanthsathya", href: profile.contact.leetcode, note: "Problem-solving practice" },
               { name: "HackerRank", handle: "rajubhaibhai576", href: profile.contact.hackerrank, note: "Certificates and practice" },
             ].map((p) => (
@@ -459,14 +452,6 @@ export default function Portfolio() {
                   <span className="block text-sm text-zinc-600 dark:text-zinc-400">Email</span>
                   <span className="block break-all font-medium">{profile.contact.email}</span>
                 </span>
-              </a>
-              <a href={profile.contact.linkedin} {...ext} className="card card-hover flex items-center gap-4 p-5">
-                <Linkedin className="h-5 w-5 text-zinc-500" aria-hidden="true" />
-                <span>
-                  <span className="block text-sm text-zinc-600 dark:text-zinc-400">LinkedIn</span>
-                  <span className="block font-medium">Badisa Srikanth</span>
-                </span>
-                <NewTab />
               </a>
               <div className="card flex items-center gap-4 p-5">
                 <MapPin className="h-5 w-5 text-zinc-500" aria-hidden="true" />
