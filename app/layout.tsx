@@ -53,11 +53,10 @@ const person = {
   alternateName: 'Srikanth Badisa',
   url: SITE_URL,
   image: `${SITE_URL}/profile-circle.jpg`,
-  address: { '@type': 'PostalAddress', addressRegion: 'Telangana', addressCountry: 'IN' },
   alumniOf: { '@type': 'CollegeOrUniversity', name: 'Vignan University' },
   jobTitle: 'AI Engineer and Full Stack Developer',
   description: 'Founder & CEO of SriVoraTech',
-  worksFor: { '@type': 'Organization', name: 'SriVoraTech', url: 'https://www.srivoratech.in/' },
+  worksFor: { '@id': 'https://www.srivoratech.in/#organization' },
   sameAs: [
     'https://github.com/Rajupeace',
     'https://leetcode.com/u/Srikanthsathya/',
@@ -71,6 +70,15 @@ const personJsonLd = {
   '@graph': [
     { '@type': 'WebSite', '@id': `${SITE_URL}/#website`, url: SITE_URL, name: 'Badisa Srikanth', alternateName: 'Srikanth Badisa Portfolio', inLanguage: 'en', publisher: { '@id': `${SITE_URL}/#person` } },
     person,
+    {
+      '@type': 'Organization',
+      '@id': 'https://www.srivoratech.in/#organization',
+      name: 'SriVoraTech',
+      url: 'https://www.srivoratech.in/',
+      foundingDate: '2024',
+      founder: { '@id': `${SITE_URL}/#person` },
+      sameAs: ['https://github.com/Rajupeace/SriVoraTech'],
+    },
   ],
 }
 

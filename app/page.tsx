@@ -114,9 +114,11 @@ function Hero() {
               {profile.availability}
             </p>
           )}
-          <p className="mt-6 text-sm font-medium text-zinc-600 dark:text-zinc-400">{profile.titles.join("  |  ")}</p>
+          <p className="mt-6 text-sm font-medium text-zinc-600 dark:text-zinc-400">{profile.titles[2]}</p>
           <h1 id="hero-heading" className="mt-3 text-4xl font-semibold tracking-tight text-zinc-950 sm:text-5xl lg:text-[3.4rem] lg:leading-[1.08] dark:text-white">
             {profile.name}
+            <span className="sr-only"> — </span>
+            <span className="mt-2 block text-2xl font-medium tracking-tight text-zinc-700 sm:text-3xl dark:text-zinc-300">AI Engineer &amp; Full Stack Developer</span>
           </h1>
           <p className="mt-4 text-xl font-medium leading-snug text-zinc-800 sm:text-2xl dark:text-zinc-200">{profile.headline}</p>
           <p className="mt-5 max-w-xl text-base leading-relaxed text-zinc-600 sm:text-lg dark:text-zinc-400">{profile.intro}</p>
@@ -205,6 +207,13 @@ export default function Portfolio() {
               {profile.about.map((p) => (
                 <p key={p}>{p}</p>
               ))}
+              <nav aria-label="Explore" className="flex flex-wrap gap-x-5 gap-y-2 pt-2 text-base">
+                <Link href="/about-srikanth" className="btn-link">More about Srikanth</Link>
+                <Link href="/projects/careeros" className="btn-link">CareerOS</Link>
+                <Link href="/projects/roadsense-ai" className="btn-link">RoadSense AI</Link>
+                <Link href="/projects/vu-universe-360" className="btn-link">Vu UniVerse360</Link>
+                <Link href="/projects/srivoratech" className="btn-link">SriVoraTech</Link>
+              </nav>
             </div>
             <div className="reveal grid gap-6">
               <div>

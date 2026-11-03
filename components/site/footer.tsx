@@ -32,6 +32,11 @@ export function SiteFooter() {
                 </Link>
               </li>
             ))}
+            <li>
+              <Link href="/about-srikanth" className="text-zinc-700 hover:text-zinc-950 dark:text-zinc-300 dark:hover:text-white">
+                About Srikanth
+              </Link>
+            </li>
           </ul>
         </nav>
         <div>
