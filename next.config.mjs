@@ -10,10 +10,10 @@ const nextConfig = {
     root: __dirname,
   },
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
   images: {
-    unoptimized: true,
+    formats: ['image/avif', 'image/webp'],
   },
 }
 
