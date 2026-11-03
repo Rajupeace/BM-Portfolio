@@ -25,13 +25,13 @@ export const metadata: Metadata = {
     title: TITLE,
     description: DESCRIPTION,
     siteName: 'Badisa Srikanth',
-    images: [{ url: '/bm-portfolio.png', width: 1200, height: 630, alt: 'Badisa Srikanth portfolio' }],
+    images: [{ url: '/og.png', width: 1200, height: 630, alt: 'Badisa Srikanth: AI Engineer, Full Stack Developer and Founder & CEO at SriVoraTech' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: TITLE,
     description: DESCRIPTION,
-    images: ['/bm-portfolio.png'],
+    images: ['/og.png'],
   },
 }
 

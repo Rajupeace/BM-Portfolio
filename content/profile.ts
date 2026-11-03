@@ -9,19 +9,19 @@ export const profile = {
   name: "Badisa Srikanth",
   alias: "Srikanth Badisa",
   titles: ["AI Engineer", "Full Stack Developer", "Founder & CEO at SriVoraTech"],
-  headline: "Building Intelligent AI Systems & Scalable Full Stack Applications",
+  headline: "Building Intelligent AI Systems & Scalable Full Stack Applications.",
   intro:
     "I'm a Computer Science engineer who builds full-stack web apps and AI-powered tools, and the Founder & CEO of SriVoraTech.",
   about: [
-    "I'm a B.Tech Computer Science student at Vignan University. I build full-stack web applications and AI-powered tools, from LLM assistants running on local models to role-based university platforms.",
+    "I'm a final-year B.Tech Computer Science student at Vignan University. I build full-stack web applications and AI-powered tools, from LLM assistants running on local models to role-based university platforms.",
     "I founded SriVoraTech in 2024 with my co-founders. It is an IT services startup in Hyderabad, where I lead product strategy, technology and business development.",
     "Right now I'm learning DevOps and MLOps: CI pipelines, Docker, container registries and deploying machine learning models.",
   ],
   photo: "/profile-circle.jpg",
   /** Shown in the hero. Set to "" to hide the availability badge. */
   availability: "Open to work",
-  location: "Khammam, Telangana, India",
-  resume: "/Srikanthsathya_Resume.pdf",
+  location: "Madhira, Telangana, India",
+  resume: "/Badisa_Srikanth_Resume.pdf",
   contact: {
     email: "rajubhaibhai576@gmail.com",
     github: "https://github.com/Rajupeace",
@@ -51,10 +51,11 @@ export const experience = [
       "Leading product strategy, technology vision and business development for an IT services startup based in Hyderabad.",
   },
   {
-    company: "Self-Employed",
-    role: "Fresher / Student Developer",
+    company: "Independent projects",
+    role: "Student Developer",
     period: "2023 – Present",
-    description: "Building personal projects, open-source contributions, and mastering the MERN stack.",
+    description:
+      "Building full-stack and AI projects, including Vu UniVerse360, the VU AI Agent and the DevOps & MLOps practicals shown on this site.",
   },
 ];
 
@@ -63,23 +64,23 @@ export const education = [
     degree: "B.Tech – Computer Science Engineering",
     institution: "Vignan University",
     period: "2023 – 2027",
-    grade: "3rd Year",
-    details: "Core CS, Data Structures, Algorithms, Web Development",
+    grade: "70% aggregate",
+    details: "Final year · Vadlamudi, Andhra Pradesh. Coursework: data structures, algorithms, DBMS, OOP, operating systems, computer networks.",
     link: "https://maps.app.goo.gl/b9MyL5AGUDNi37d28",
   },
   {
     degree: "Intermediate (MPC)",
     institution: "Sri Chaitanya Jr College, Khammam",
     period: "2021 – 2023",
-    grade: "Marks: 810",
+    grade: "85%",
     details: "Mathematics, Physics, Chemistry",
   },
   {
     degree: "High School (SSC)",
-    institution: "St. Frances English Medium High School",
-    period: "2009 – 2020",
+    institution: "St. Francis English Medium High School",
+    period: "2021",
     grade: "GPA: 10/10",
-    details: "School Topper",
+    details: "Secondary School Certificate",
   },
 ];
 
@@ -92,9 +93,10 @@ export const certifications = [
   { name: "Problem Solving (Basic)", issuer: "HackerRank", code: "DB1C7CC20DC1", date: "06 Jun, 2025", file: "/certificates/problem-solving.pdf" },
 ];
 
-export const achievements = [
+export const achievements: { title: string; description: string; year?: string }[] = [
+  { title: "250+ problems solved on LeetCode", description: "266 accepted problems (133 easy, 93 medium, 40 hard) on my public LeetCode profile, November 2026." },
+  { title: "5-star Python badge on HackerRank", description: "Shown on my public HackerRank profile, along with HackerRank certificates in Python and Problem Solving." },
   { title: "Smart India Hackathon Finalist", description: "Selected for the grand finale for an innovative AI-based solution.", year: "2023" },
-  { title: "5 Star Coder at HackerRank", description: "Achieved 5-star rating in Problem Solving and Python.", year: "2023" },
   { title: "Best Student Project", description: "Awarded for the 'Friendly-Notebook' project during college tech fest.", year: "2024" },
 ];
 

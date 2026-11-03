@@ -23,7 +23,8 @@ npm run build
 | DevOps & MLOps journey steps | `content/devops-journey.ts` |
 | Page title / SEO description | `app/layout.tsx` |
 | Site URL (canonical, Open Graph, sitemap, robots) | `lib/site.ts` |
-| Resume PDF | `public/Srikanthsathya_Resume.pdf` |
+| Resume PDF | `public/Badisa_Srikanth_Resume.pdf` (old `/Srikanthsathya_Resume.pdf` links redirect here) |
+| AI & Research section (stages, publication status) | `content/research.ts` |
 
 ### Skills & Learning tracker
 
