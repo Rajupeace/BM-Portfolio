@@ -16,7 +16,15 @@ const nextConfig = {
     formats: ['image/avif', 'image/webp'],
   },
   async redirects() {
-    return [{ source: '/Srikanthsathya_Resume.pdf', destination: '/Badisa_Srikanth_Resume.pdf', permanent: true }]
+    return [
+      { source: '/Srikanthsathya_Resume.pdf', destination: '/Badisa_Srikanth_Resume.pdf', permanent: true },
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'bm-portfolio-xi.vercel.app' }],
+        destination: 'https://srikanth.portfolio.srivoratech.in/:path*',
+        permanent: true,
+      },
+    ]
   },
 }
 
