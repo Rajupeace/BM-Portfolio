@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, FlaskConical } from "lucide-react";
 import { research, type ResearchStageStatus } from "@/content/research";
+import { ArchitectureDiagram } from "@/components/site/architecture-diagram";
 
 const STAGE: Record<ResearchStageStatus, { label: string; className: string }> = {
   done: { label: "Written", className: "border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-900 dark:bg-emerald-950/50 dark:text-emerald-300" },
@@ -37,11 +38,9 @@ export function ResearchSection() {
             <dd className="mt-1.5 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
               {s.text}
               {s.items && (
-                <ol className="mt-1 grid list-decimal gap-1 pl-5">
-                  {s.items.map((i) => (
-                    <li key={i}>{i}</li>
-                  ))}
-                </ol>
+                <div className="mt-2">
+                  <ArchitectureDiagram steps={s.items} label={`${s.label} diagram`} />
+                </div>
               )}
               {!s.text && !s.items && "Will be added once this stage is written."}
             </dd>

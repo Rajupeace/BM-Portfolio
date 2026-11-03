@@ -47,10 +47,9 @@ export const srivoratech = {
     {
       name: "SriERP Pro",
       category: "Enterprise Software (ERP)",
-      summary: "ERP platform for HR, payroll, inventory, finance, attendance and project workflows. The demo linked on srivoratech.in is the Vu UniVerse360 campus system.",
+      summary: "ERP platform for HR, payroll, inventory, finance, attendance and project workflows in one dashboard.",
       tech: ["React.js", "NestJS", "PostgreSQL", "Docker", "AWS"],
-      status: "live-demo",
-      url: "https://vu-universe-360.vercel.app/",
+      status: "upcoming",
     },
     {
       name: "SmartAI Assistant",

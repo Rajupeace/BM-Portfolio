@@ -64,7 +64,7 @@ export const education = [
     degree: "B.Tech – Computer Science Engineering",
     institution: "Vignan University",
     period: "2023 – 2027",
-    grade: "70% aggregate",
+    grade: "Percentage: 70% (aggregate)",
     details: "Final year · Vadlamudi, Andhra Pradesh. Coursework: data structures, algorithms, DBMS, OOP, operating systems, computer networks.",
     link: "https://maps.app.goo.gl/b9MyL5AGUDNi37d28",
   },
@@ -72,7 +72,7 @@ export const education = [
     degree: "Intermediate (MPC)",
     institution: "Sri Chaitanya Jr College, Khammam",
     period: "2021 – 2023",
-    grade: "85%",
+    grade: "Percentage: 85%",
     details: "Mathematics, Physics, Chemistry",
   },
   {
