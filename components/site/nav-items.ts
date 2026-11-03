@@ -3,6 +3,7 @@ export const NAV_ITEMS = [
   { label: "Skills", id: "skills" },
   { label: "Projects", id: "work" },
   { label: "Startup", id: "startup" },
+  { label: "Learning", id: "learning" },
   { label: "Journey", id: "devops" },
   { label: "Experience", id: "career" },
   { label: "Contact", id: "contact" },

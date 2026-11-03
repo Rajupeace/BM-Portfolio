@@ -17,6 +17,8 @@
  * 7. `nextUp`: optional list of things you plan to learn next. Use [] to hide.
  * 8. `lastUpdated`: the date you last edited this file, written as "YYYY-MM-DD".
  *    It is shown on the site as e.g. "1 November 2026".
+ * 9. `evidence` (optional): links to real work that shows the skill, e.g. a repo
+ *    or a CI run: [{ label: "CI run", href: "https://github.com/..." }].
  * ────────────────────────────────────────────────────────────────────────────
  */
 
@@ -30,13 +32,38 @@ export interface LearningSkill {
   note?: string;
   icon?: SkillIcon;
   progress?: number;
+  evidence?: { label: string; href: string }[];
 }
 
 export const learningSkills: LearningSkill[] = [
-  { name: "Git & GitHub", status: "completed", icon: "git" },
-  { name: "Docker", status: "in-progress", note: "Just started", icon: "docker" },
-  { name: "DevOps", status: "learning", icon: "devops" },
-  { name: "MLOps", status: "learning", icon: "mlops" },
+  {
+    name: "Git & GitHub",
+    status: "completed",
+    icon: "git",
+    evidence: [{ label: "GitHub profile", href: "https://github.com/Rajupeace" }],
+  },
+  {
+    name: "Docker",
+    status: "in-progress",
+    note: "Just started",
+    icon: "docker",
+    evidence: [
+      { label: "Docker build in CI", href: "https://github.com/Rajupeace/student-result-ml-ci/actions/runs/39920571729" },
+      { label: "GHCR image", href: "https://github.com/Rajupeace/student-result-ml-ci/pkgs/container/student-result-prediction" },
+    ],
+  },
+  {
+    name: "DevOps",
+    status: "learning",
+    icon: "devops",
+    evidence: [{ label: "CI/CD practicals", href: "https://github.com/Rajupeace/first-ci-demo" }],
+  },
+  {
+    name: "MLOps",
+    status: "learning",
+    icon: "mlops",
+    evidence: [{ label: "ML quality gate run", href: "https://github.com/Rajupeace/student-result-ml-ci/actions/runs/37278065796" }],
+  },
 ];
 
 export const currentFocus = "DevOps & MLOps";
