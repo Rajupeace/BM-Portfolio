@@ -38,7 +38,7 @@ export function Certificates({ items }: { items: Cert[] }) {
             role="dialog"
             aria-modal="true"
             aria-labelledby="cert-dialog-title"
-            className="card flex h-[85vh] w-full max-w-4xl flex-col overflow-hidden"
+            className="card flex h-[85vh] w-full max-w-4xl flex-col overflow-hidden dark:bg-zinc-900"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between gap-3 border-b border-zinc-200 px-5 py-3 dark:border-zinc-800">

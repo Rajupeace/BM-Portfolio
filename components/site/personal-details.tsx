@@ -31,7 +31,7 @@ export function PersonalDetails({ details }: { details: Record<string, string> }
             role="dialog"
             aria-modal="true"
             aria-labelledby="personal-title"
-            className="card w-full max-w-md p-6"
+            className="card w-full max-w-md p-6 dark:bg-zinc-900"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between">
