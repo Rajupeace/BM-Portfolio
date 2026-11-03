@@ -25,6 +25,8 @@ export interface Project {
   architecture?: string[];
   contribution?: string;
   implemented?: string[];
+  /** Features being built now, not yet verified as working. */
+  inProgress?: string[];
   planned?: string[];
   challenges?: string[];
   results?: string[];
@@ -50,7 +52,21 @@ export const projects: Project[] = [
     tagline: "AI-powered career intelligence platform.",
     category: ["AI", "Full Stack"],
     status: "in-progress",
-    statusNote: "Repository, screenshots and the list of working features are not published yet. Only the technology stack is shown until they are.",
+    statusNote: "Not public yet: there is no repository, demo or screenshot to verify, so every feature is listed as in progress.",
+    problem: "Job seekers rarely know how well their resume matches a specific job description or which skills they are missing.",
+    solution: "Analyse a resume against a job description with a local LLM (Qwen3 through Ollama) and retrieval-augmented generation over ChromaDB, then report skill gaps.",
+    architecture: [
+      "FastAPI backend",
+      "Qwen3 running locally through Ollama",
+      "ChromaDB vector store with Sentence Transformers embeddings",
+      "Retrieval-Augmented Generation (RAG) pipeline",
+    ],
+    inProgress: [
+      "Resume intelligence: parse and understand a resume",
+      "Job description analysis",
+      "Skill gap analysis between resume and job description",
+      "RAG over ChromaDB for grounded answers",
+    ],
     tech: ["Python", "FastAPI", "React", "Qwen3", "Ollama", "ChromaDB", "Sentence Transformers", "RAG"],
     featured: true,
   },
@@ -60,7 +76,7 @@ export const projects: Project[] = [
     tagline: "AI-based Indian road damage detection and research project.",
     category: ["AI"],
     status: "research",
-    statusNote: "Research project. Dataset, evaluation results and the implemented feature set are not published yet, so all features are listed as planned.",
+    statusNote: "Research proposal. No dataset, experiments or results are published yet, so every feature is listed as proposed.",
     problem: "Damaged roads in India (potholes, cracks, waterlogging and damaged manholes) are reported slowly and repaired without a clear priority order.",
     solution: "Detect road damage from images, estimate severity and risk, and prioritise repairs, with a corrective RAG layer for grounded explanations.",
     planned: [
@@ -77,8 +93,8 @@ export const projects: Project[] = [
   },
   {
     slug: "vu-universe-360",
-    title: "VU - UniVerse-360",
-    tagline: "Smart campus and university management system.",
+    title: "Vu UniVerse360",
+    tagline: "Campus management platform with student, faculty and admin portals. Repository: VUUniverse-360.",
     category: ["Full Stack"],
     status: "live",
     problem: "Institutions juggle separate tools for students, faculty and administration, which scatters academic and operational data.",
@@ -107,8 +123,8 @@ export const projects: Project[] = [
   },
   {
     slug: "vu-ai-agent",
-    title: "Vu Universe 360",
-    tagline: "AI agent for university assistance with context-aware answers.",
+    title: "VU AI Agent",
+    tagline: "Standalone AI assistant for university questions; Vu UniVerse360 integrates it as its AI module.",
     category: ["AI"],
     status: "source",
     statusNote: "The earlier demo at vu-ai-agent.vercel.app no longer exists. The source code is on GitHub.",
@@ -205,7 +221,7 @@ export const projects: Project[] = [
     tech: ["Next.js", "TypeScript", "Tailwind CSS"],
     github: "https://github.com/Rajupeace/BM-Portfolio",
     live: "https://srikanth.portfolio.srivoratech.in",
-    image: "/bm-portfolio.png",
+    image: "/projects/bm-portfolio.webp",
     imageAlt: "Screenshot of the BM Portfolio site",
   },
 ];

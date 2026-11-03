@@ -21,6 +21,7 @@ import { PersonalDetails } from "@/components/site/personal-details";
 import { ContactForm } from "@/components/site/contact-form";
 import { SkillsLearningTracker } from "@/components/sections/skills-learning";
 import { StartupSection } from "@/components/sections/startup-section";
+import { ResearchSection } from "@/components/sections/research-section";
 import {
   achievements,
   certifications,
@@ -244,8 +245,10 @@ export default function Portfolio() {
           id="ai-lab"
           eyebrow="AI & research"
           title="AI & Research Lab"
-          lead="My AI work, with an honest status for each one. Planned features are labelled as planned."
+          lead="My research and AI projects. Each one shows what is built, what is in progress and what is only proposed."
         >
+          <ResearchSection />
+          <h3 className="mb-4 mt-12 text-sm font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">AI projects</h3>
           <ul className="grid gap-4">
             {aiProjects.map((p) => (
               <li key={p.slug} className="reveal card card-hover p-5 sm:p-6">
@@ -374,8 +377,8 @@ export default function Portfolio() {
           <ul className="grid gap-4 md:grid-cols-3">
             {achievements.map((a) => (
               <li key={a.title} className="reveal card p-5">
-                <p className="text-sm text-zinc-600 dark:text-zinc-400">{a.year}</p>
-                <h3 className="mt-2 font-semibold">{a.title}</h3>
+                {a.year && <p className="mb-2 text-sm text-zinc-600 dark:text-zinc-400">{a.year}</p>}
+                <h3 className="font-semibold">{a.title}</h3>
                 <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">{a.description}</p>
               </li>
             ))}

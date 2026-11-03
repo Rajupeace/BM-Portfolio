@@ -121,8 +121,13 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                 <List items={project.implemented} />
               </Block>
             )}
+            {project.inProgress && (
+              <Block title="In progress (not verified yet)">
+                <List items={project.inProgress} />
+              </Block>
+            )}
             {project.planned && (
-              <Block title="Planned (not built yet)">
+              <Block title={project.status === "research" ? "Proposed (not built yet)" : "Planned (not built yet)"}>
                 <List items={project.planned} />
               </Block>
             )}

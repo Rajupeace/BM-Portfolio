@@ -15,6 +15,9 @@ const nextConfig = {
   images: {
     formats: ['image/avif', 'image/webp'],
   },
+  async redirects() {
+    return [{ source: '/Srikanthsathya_Resume.pdf', destination: '/Badisa_Srikanth_Resume.pdf', permanent: true }]
+  },
 }
 
 export default nextConfig

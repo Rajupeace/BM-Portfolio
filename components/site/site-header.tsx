@@ -64,7 +64,7 @@ export function SiteHeader() {
     <header
       className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-200 ${
         scrolled || open
-          ? "border-zinc-200 bg-zinc-50/90 backdrop-blur-md dark:border-zinc-800 dark:bg-[#0b0b0d]/90"
+          ? "border-zinc-200 bg-zinc-50/[0.97] dark:border-zinc-800 dark:bg-[#0b0b0d]/[0.97]"
           : "border-transparent bg-transparent"
       }`}
     >
