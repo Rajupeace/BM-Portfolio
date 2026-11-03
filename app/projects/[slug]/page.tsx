@@ -10,6 +10,9 @@ import { SiteHeader } from "@/components/site/site-header";
 import { SiteFooter } from "@/components/site/footer";
 import { StatusBadge } from "@/components/site/project-card";
 import { ArchitectureDiagram } from "@/components/site/architecture-diagram";
+import { ResearchSection } from "@/components/sections/research-section";
+import { RevealObserver } from "@/components/site/reveal-observer";
+import { research } from "@/content/research";
 
 export const dynamicParams = false;
 
@@ -182,6 +185,12 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
               <Block title="Results">
                 <List items={project.results} />
               </Block>
+            )}
+            {project.slug === research.projectSlug && (
+              <>
+                <ResearchSection caseStudyLink={false} />
+                <RevealObserver />
+              </>
             )}
           </div>
           <aside className="lg:sticky lg:top-24 lg:self-start">

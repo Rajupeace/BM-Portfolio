@@ -25,7 +25,6 @@ export const profile = {
   contact: {
     email: "rajubhaibhai576@gmail.com",
     github: "https://github.com/Rajupeace",
-    linkedin: "https://www.linkedin.com/in/srikanth-b-1b6b452a5/",
     hackerrank: "https://www.hackerrank.com/profile/rajubhaibhai576",
     leetcode: "https://leetcode.com/u/Srikanthsathya/",
   },
