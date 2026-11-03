@@ -34,22 +34,11 @@ export function useDialog(open: boolean, onClose: () => void) {
         first.focus();
       }
     };
-    // Keys pressed inside an embedded frame (e.g. a PDF viewer) never reach this document,
-    // so return focus to the dialog when a click moves it into one.
-    const onBlur = () => {
-      setTimeout(() => {
-        const active = document.activeElement;
-        const dialog = closeRef.current?.closest('[role="dialog"]');
-        if (active?.tagName === "IFRAME" && dialog?.contains(active)) closeRef.current?.focus();
-      }, 0);
-    };
     document.addEventListener("keydown", onKey);
-    window.addEventListener("blur", onBlur);
     const overflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
       document.removeEventListener("keydown", onKey);
-      window.removeEventListener("blur", onBlur);
       document.body.style.overflow = overflow;
       previous?.focus();
     };
