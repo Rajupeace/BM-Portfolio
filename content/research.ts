@@ -80,9 +80,14 @@ export const research = {
     },
     { label: "Research methodology", status: "not-started" },
     { label: "Model training methodology", status: "not-started" },
-    { label: "Evaluation metrics", status: "not-started" },
+    { label: "Evaluation methodology", status: "not-started" },
     { label: "Results", status: "not-started", text: "No experiments have been run, so there are no results yet." },
     { label: "Limitations", status: "not-started" },
     { label: "Future work", status: "not-started" },
+    {
+      label: "Current research status",
+      status: "in-progress",
+      text: "Research proposal stage. The problem statement, objectives and proposed architecture are written and starting references are collected. No dataset has been collected and no experiments have been run, so results are pending.",
+    },
   ] as ResearchStage[],
 };
