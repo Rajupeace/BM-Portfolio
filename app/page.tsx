@@ -155,15 +155,17 @@ function Hero() {
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-zinc-500" aria-hidden="true" />
                 <span>{profile.location}</span>
               </li>
-              <li className="flex items-start gap-3">
-                <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-amber-500" aria-hidden="true" />
-                <span>
+              {currentFocus.trim() && (
+                <li className="flex items-start gap-3">
+                  <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-amber-500" aria-hidden="true" />
+                  <span>
                     Now learning{" "}
                     <a href="#learning" className="font-medium underline decoration-zinc-300 underline-offset-4 hover:decoration-zinc-600 dark:decoration-zinc-600">
                       {currentFocus}
                     </a>
                   </span>
-              </li>
+                </li>
+              )}
             </ul>
           </div>
         </div>

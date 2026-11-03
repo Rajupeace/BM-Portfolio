@@ -38,7 +38,7 @@ export function ProjectCard({ project }: { project: Project }) {
           <span className="text-xs text-zinc-600 dark:text-zinc-400">{project.category.join(" · ")}</span>
         </div>
         <h3 className="mt-3 text-lg font-semibold tracking-tight">
-          <Link href={`/projects/${project.slug}`} className="rounded-sm after:absolute after:inset-0 focus-visible:outline-none">
+          <Link href={`/projects/${project.slug}`} className="rounded-sm after:absolute after:inset-0 after:rounded-[inherit] focus-visible:outline-none focus-visible:after:ring-2 focus-visible:after:ring-inset focus-visible:after:ring-brand-500">
             {project.title}
           </Link>
         </h3>

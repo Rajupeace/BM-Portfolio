@@ -42,11 +42,11 @@ export function PersonalDetails({ details }: { details: Record<string, string> }
                 <X className="h-4 w-4" aria-hidden="true" />
               </button>
             </div>
-            <dl className="mt-5 grid grid-cols-[auto_1fr] gap-x-6 gap-y-3 text-sm">
+            <dl className="mt-5 grid grid-cols-[auto_minmax(0,1fr)] gap-x-6 gap-y-3 text-sm">
               {Object.entries(details).map(([k, v]) => (
                 <div key={k} className="contents">
                   <dt className="text-zinc-600 dark:text-zinc-400">{LABELS[k] ?? k}</dt>
-                  <dd className="font-medium">{v}</dd>
+                  <dd className="min-w-0 font-medium [overflow-wrap:anywhere]">{v}</dd>
                 </div>
               ))}
             </dl>

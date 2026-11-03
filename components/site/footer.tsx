@@ -2,9 +2,9 @@ import Link from "next/link";
 import { profile } from "@/content/profile";
 import { srivoratech } from "@/content/srivoratech";
 import { NAV_ITEMS } from "./nav-items";
+import { CurrentYear } from "./current-year";
 
 export function SiteFooter() {
-  const year = new Date().getFullYear();
   const links = [
     { label: "GitHub", href: profile.contact.github },
     { label: "LinkedIn", href: profile.contact.linkedin },
@@ -50,7 +50,7 @@ export function SiteFooter() {
       </div>
       <div className="border-t border-zinc-200 dark:border-zinc-800">
         <div className="container-page flex flex-wrap items-center justify-between gap-3 py-5 text-xs text-zinc-600 dark:text-zinc-400">
-          <p>© {year} {profile.name}. Built with Next.js.</p>
+          <p>© <CurrentYear /> {profile.name}. Built with Next.js.</p>
           <Link href="/#home" className="hover:text-zinc-900 dark:hover:text-white">
             Back to top ↑
           </Link>

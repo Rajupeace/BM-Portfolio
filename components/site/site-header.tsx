@@ -128,6 +128,7 @@ export function SiteHeader() {
                 <a
                   href={`/#${item.id}`}
                   onClick={() => setOpen(false)}
+                  aria-current={active === item.id ? "true" : undefined}
                   className={`block rounded-lg px-3 py-2.5 text-base font-medium ${
                     active === item.id ? "bg-zinc-100 text-zinc-950 dark:bg-zinc-800/70 dark:text-white" : "text-zinc-700 dark:text-zinc-300"
                   }`}
